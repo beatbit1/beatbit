@@ -11,6 +11,10 @@ export const musicians = () => API.get("/musicians");
 export const addMusician = (data) => API.post("/add", data);
 export const searchMusicians = (query) => API.get(`/musicians/search`, { params: { query } });
 
-
-//Upload API call
-export const upload = (data) => API.post("/upload", data);
+//upload API call
+export const uploadAudio = (formData) => API.post('/upload', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+});
+export const getAllUploads = () => API.get('/all');
+export const getCategories = () => API.get("/categories");
+export const searchUpload = () => API.get("/search")

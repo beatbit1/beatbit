@@ -1,35 +1,55 @@
 import ReelsNavBar from "./reelsNavbar"
-import Sidemenu from "../components/sidemenu"
-import React, { useState } from 'react';
+import Sidemenu from "../components/sidemenu";
+import {uploadAudio, getCategories} from "../services/apiCall"
+import React, { useState, useEffect } from 'react';
+
+
 function Uploads () {
-    const [audioFiles, setAudioFiles] = useState([]);
     const [audioTitle, setAudioTitle] = useState('');
     const [audioDescription, setAudioDescription] = useState('');
     const [audioImage, setAudioImage] = useState(null);
     const [audioFile, setAudioFile] = useState(null);
-    const handleUpload = (e) => {
+    const [category, setCategory] = useState('');
+    const [categories, setCategories] = useState([]);
+    const [shortReels, setShortReels] = useState(false);
+
+    useEffect(() => {
+        const fetchCategories = async() => {
+            try {
+                const response = await getCategories();
+                setCategories(response.data);
+            } catch (error) {
+                console.error("Fail to fetch category", error)
+            }
+        };
+        fetchCategories();
+    },[])
+
+
+    const handleUpload = async(e) => {
         e.preventDefault();
-    
-        if (!audioFile) {
-          alert("Please select an audio file to upload.");
-          return;
+
+        if(!audioFile || audioImage){
+            alert("Please select both audio and image files to upload!")
+        }
+
+        const formData = new FormData();
+        formData.append("title", audioTitle);
+        formData.append("description", audioDescription);
+        formData.append("image", audioImage);
+        formData.append("audio", audioFile);
+        formData.append("category", category);
+        formData.append("shortReels", shortReels);
+
+        try{
+            const response = await uploadAudio(formData);
+            alert(response.data.message);
+        }catch(err){
+            console.error("Upload failed", err);
+            alert("Failed to upload audio.");
         }
     
-        // Create a new audio object with the provided details
-        const newAudio = {
-          id: Date.now(),
-          title: audioTitle,
-          description: audioDescription,
-          image: audioImage ? URL.createObjectURL(audioImage) : null,
-          file: URL.createObjectURL(audioFile)
-        };
-        setAudioFiles([...audioFiles, newAudio]);
-
-        // Reset form fields
-        setAudioTitle('');
-        setAudioDescription('');
-        setAudioImage(null);
-        setAudioFile(null);
+        
     }
     
     return (
@@ -37,7 +57,10 @@ function Uploads () {
             <ReelsNavBar/>
             <Sidemenu/>
             <div className="flex justify-center items-center pt-[100px]">
-                <input className="border-2 py-[5px] px-[30px] w-[30%] outline-none rounded-md bg-transparent text-white text-[18px] text-center sm:w-[90%] md:w-[90%] lg:w-[30%]" type="text" placeholder="Search" />
+                <input className="border-2 py-[5px] px-[30px] w-[30%] outline-none rounded-md bg-transparent text-white text-[18px] text-center sm:w-[90%] md:w-[90%] lg:w-[30%]" 
+                type="text" 
+                placeholder="Search" 
+                />
             </div>
             <section className="pl-[300px] pt-[30px] sm:pl-[20px] md:pl-[30px] lg:pl-[300px]">
                 <h1 className="text-white text-[20px]">UPLOAD</h1>
@@ -56,9 +79,17 @@ function Uploads () {
                         </div>
                     </div>
                     <p className="text-white text-[20px] tracking-widest mt-[30px]">Enter Title</p>
-                    <input value={audioTitle} onChange={(e) => setAudioTitle(e.target.value)} required className="mt-[10px] w-[60%] p-[10px] border-2 border-neutral-800 bg-transparent outline-none sm:w-[90%] md:w-[80%] lg:w-[60%]" type="text" />
+                    <input 
+                    value={audioTitle} 
+                    onChange={(e) => setAudioTitle(e.target.value)} 
+                    required 
+                    className="mt-[10px] w-[60%] p-[10px] border-2 border-neutral-800 bg-transparent outline-none sm:w-[90%] md:w-[80%] lg:w-[60%]" type="text" />
                     <p className="text-white text-[20px] tracking-widest mt-[30px]">Description</p>
-                    <input  value={audioDescription} onChange={(e) => setAudioDescription(e.target.value)} required className="mt-[10px] w-[60%] p-[10px] border-2 border-neutral-800 bg-transparent outline-none sm:w-[90%] md:w-[80%] lg:w-[60%]" type="text" />
+                    <input  
+                    value={audioDescription} 
+                    onChange={(e) => setAudioDescription(e.target.value)} 
+                    required 
+                    className="mt-[10px] w-[60%] p-[10px] border-2 border-neutral-800 bg-transparent outline-none sm:w-[90%] md:w-[80%] lg:w-[60%]" type="text" />
                 </div>
                 <div className="flex mt-[30px] relative justify-left items-center">
                     <p className="text-white mr-[30px] py-[20px] px-[30px] border-2 border-neutral-800 bg-transparent">Upload Ablum</p>
@@ -73,18 +104,33 @@ function Uploads () {
                 <div className="mt-[20px]">
                     <label className="text-white text-[22px]" htmlFor="">Category</label>
                     <div className="flex justify-left items-center">
-                        <select className="outline-none w-[20%] mr-[10px] mt-[20px] bg-transparent border-2 border-neutral-800 py-[9px] px-[10px] cursor-pointer text-[20px] sm:w-[30%] md:w-[30%] lg:w-[20%]" name="" id="">
-                            <option value="">Pop</option>
-                            <option value="">Rock</option>
-                            <option value="">Jazz</option>
+                        <select className="outline-none w-[20%] mr-[10px] mt-[20px] bg-transparent border-2 border-neutral-800 py-[9px] px-[10px] cursor-pointer text-[20px] sm:w-[30%] md:w-[30%] lg:w-[20%]" 
+                         value={category}
+                         onChange={(e)=>setCategory(e.target.value)}
+                         required
+                         >
+                            <option value="">Select Category</option>
+                            {categories.map((cat) => (
+                                <option key={cat._id} value={cat.name}>
+                                    {cat.name}
+                                </option>
+                            ))}
+                            
                         </select>
                         <div className="flex mt-[10px]">
-                            <input className="mr-[10px]" type="checkbox" name="" id="" />
+                            <input className="mr-[10px]" 
+                            type="checkbox" 
+                            checked={shortReels}
+                            onChange={() => setShortReels(!shortReels)}
+                             />
                             <h2 className="text-white">Short reels</h2>
                         </div>
                     </div>
                 </div>
-                <a href="/connect" rel="noopener noreferrer"><button  className="flex justify-center  py-[10px] px-[70px] mt-[30px] rounded-md text-[15px] font-medium shadow-md text-white hover:bg-[#ff014f] hover:text-white bg-[#DE0808] w-[50%] sm:hidden md:hidden lg:flex" type="submit">Upload & Publish</button></a>
+                <a href="/connect" rel="noopener noreferrer">
+                <button  
+                className="flex justify-center  py-[10px] px-[70px] mt-[30px] rounded-md text-[15px] font-medium shadow-md text-white hover:bg-[#ff014f] hover:text-white bg-[#DE0808] w-[50%] sm:hidden md:hidden lg:flex" 
+                type="submit" onClick={handleUpload}>Upload & Publish</button></a>
             </section>
         </>
     )

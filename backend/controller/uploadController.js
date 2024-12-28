@@ -1,4 +1,5 @@
 const UploadFile = require("../model/uploadModel");
+const Category = require("../model/CategoryModel");
 const path = require("path");
 const fs = require("fs");
 
@@ -37,3 +38,36 @@ exports.uploadAudio = async(req, res) => {
         res.status(500).json({ message: 'Server error', error: err.message });
     }
 }
+
+exports.getAllUploads = async(rq, res) => {
+    try{
+        const audios = await UploadFile.find();
+        res.status(200).json(audios)
+    }catch(error){
+        res.status(500).json({error: " Fail to upload audio"})
+    }
+}
+
+exports.getCategories = async (req, res) => {
+    try {
+        const categories = await Category.find();
+        res.status(200).json(categories);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to retrieve categories" });
+    }
+};
+
+exports.searchUploads = async (req, res) => {
+    try {
+        const { query } = req.query;
+        const results = await UploadFile.find({
+            $or: [
+                { title: { $regex: query, $options: 'i' } },
+                { description: { $regex: query, $options: 'i' } },
+            ],
+        });
+        res.status(200).json(results);
+    } catch (error) {
+        res.status(500).json({ error: 'Search failed' });
+    }
+};
