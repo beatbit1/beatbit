@@ -22,6 +22,13 @@ exports.uploadAudio = async(req, res) => {
         imageFile.mv(imagePath);
         audioFile.mv(audioPath);
 
+
+        // Validate category
+        const categoryExists = await Category.findById(category);
+        if (!categoryExists) {
+            return res.status(400).json({ message: 'Invalid category selected.' });
+        }
+
         // Save metadata to database
         const newUpload = new UploadFile({
             title,

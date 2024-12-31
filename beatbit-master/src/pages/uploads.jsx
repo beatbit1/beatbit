@@ -1,6 +1,6 @@
 import ReelsNavBar from "./reelsNavbar"
 import Sidemenu from "../components/sidemenu";
-import {uploadAudio, getCategories} from "../services/apiCall"
+import {uploadAudio, getCategories, searchUpload} from "../services/apiCall";
 import React, { useState, useEffect } from 'react';
 
 
@@ -12,6 +12,7 @@ function Uploads () {
     const [category, setCategory] = useState('');
     const [categories, setCategories] = useState([]);
     const [shortReels, setShortReels] = useState(false);
+    
 
     useEffect(() => {
         const fetchCategories = async() => {
@@ -50,17 +51,29 @@ function Uploads () {
         }
     
         
-    }
+    };
+
+    // const handleSearch = async (e) => {
+    //     setSearchInput(e.target.value);
+    //     try {
+    //         const response = await searchUpload({ query: e.target.value });
+    //         setFilteredUploads(response.data);
+    //     } catch (error) {
+    //         console.error("Search failed", error);
+    //     }
+    // };
     
     return (
         <>
             <ReelsNavBar/>
             <Sidemenu/>
             <div className="flex justify-center items-center pt-[100px]">
-                <input className="border-2 py-[5px] px-[30px] w-[30%] outline-none rounded-md bg-transparent text-white text-[18px] text-center sm:w-[90%] md:w-[90%] lg:w-[30%]" 
+                {/* <input className="border-2 py-[5px] px-[30px] w-[30%] outline-none rounded-md bg-transparent text-white text-[18px] text-center sm:w-[90%] md:w-[90%] lg:w-[30%]" 
                 type="text" 
-                placeholder="Search" 
-                />
+                placeholder="Search by Title or Description"
+                value={searchInput}
+                onChange={handleSearch} 
+                /> */}
             </div>
             <section className="pl-[300px] pt-[30px] sm:pl-[20px] md:pl-[30px] lg:pl-[300px]">
                 <h1 className="text-white text-[20px]">UPLOAD</h1>
@@ -100,7 +113,13 @@ function Uploads () {
                         onChange={(e) => setAudioImage(e.target.files[0])}
                     />
                 </div>
-                <a href="/connect" rel="noopener noreferrer"><button  className="flex py-[10px] px-[70px] mt-[20px] rounded-md text-[15px] font-medium shadow-md text-white hover:bg-[#ff015f] hover:text-white bg-[#DE0808] sm:hidden md:hidden lg:flex" type="button">Upload Image</button></a>
+                <button  
+                className="flex py-[10px] px-[70px] mt-[20px] rounded-md text-[15px] font-medium shadow-md text-white hover:bg-[#ff015f] hover:text-white bg-[#DE0808] sm:hidden md:hidden lg:flex" 
+                type="button"
+                onClick={() => audioImage ? alert("Image selected successfully!") : alert("Please select an image!")}
+                  >
+                    Upload Image
+                </button>
                 <div className="mt-[20px]">
                     <label className="text-white text-[22px]" htmlFor="">Category</label>
                     <div className="flex justify-left items-center">
@@ -109,7 +128,7 @@ function Uploads () {
                          onChange={(e)=>setCategory(e.target.value)}
                          required
                          >
-                            <option value="">Select Category</option>
+                            <option value="" className="text-white">Select Category</option>
                             {categories.map((cat) => (
                                 <option key={cat._id} value={cat.name}>
                                     {cat.name}

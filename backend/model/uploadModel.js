@@ -6,11 +6,13 @@ const uploadSchema = new mongoose.Schema({
     imageUrl: { type: String, required: true },
     audioUrl: { type: String, required: true },
     category: {
-        type: String,
-        enum: ["Pop", "Jazz", "Blues", "Rock", "Classical", "Hip-hop"],
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Category", // Category model (not provided)
         required: true,
     },
     shortReels: { type: Boolean, default: false },
-});
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // Linked to User
+}, { timestamps: true });
 
 module.exports = mongoose.model('Uploads', uploadSchema);
+

@@ -1,6 +1,7 @@
 import ReelsNavBar from "./reelsNavbar"
 import Sidemenu from "../components/sidemenu"
 import React, { useState, useEffect, useRef } from 'react';
+import {getChartData, reward} from "../services/apiCall"
 const eminem = [
     {
       src: 'http://blownaija.com/wp-content/uploads/2018/09/KILLSHOT-Official-Audio-Blownaija.com_.mp3',
@@ -10,6 +11,8 @@ const eminem = [
     },
 ]
 function Chart () {
+    const [chartData, setChartData] = useState({});
+    const [loading, setLoading] = useState(true);
     const [currentReelIndex, setCurrentReelIndex] = useState(null);
     const audioRefs = useRef([]); // Refs to all audio elements
 

@@ -17,4 +17,14 @@ export const uploadAudio = (formData) => API.post('/upload', formData, {
 });
 export const getAllUploads = () => API.get('/all');
 export const getCategories = () => API.get("/categories");
-export const searchUpload = () => API.get("/search")
+export const searchUpload = () => API.get("/search");
+
+//Charts API call
+export const getChartData = () => API.get('/charts');
+
+
+
+//Connect Wallet API call
+export const connectWallet = (data) => API.post("/connect-wallet", data);
+export const getWalletAddress = (walletAddress) => API.get(`/user/${walletAddress}`);
+export const reward = (data) => API.post('/rewards', data);

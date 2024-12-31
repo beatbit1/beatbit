@@ -6,6 +6,7 @@ const cors = require("cors")
 const app = express();
 const musicianRoutes = require("./routes/musicianRoutes");
 const uploadRoutes = require("./routes/uploadRoutes.js");
+const rewardRoutes = require("./routes/rewardRoute")
 const path = require("path");
 
 
@@ -30,7 +31,8 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 //route middlewares
 app.use("/api/v2", musicianRoutes);
-app.use("/api/v2", uploadRoutes)
+app.use("/api/v2", uploadRoutes);
+app.use("/api/v2", rewardRoutes);
 
 
 
