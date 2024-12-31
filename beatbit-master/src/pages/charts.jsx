@@ -2,15 +2,23 @@ import ReelsNavBar from "./reelsNavbar"
 import Sidemenu from "../components/sidemenu"
 import React, { useState, useEffect, useRef } from 'react';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import {getChartData, reward, getReelByTitle} from "../services/apiCall"
 // const eminem = [
 //     {
 //       songUrl: 'http://blownaija.com/wp-content/uploads/2018/09/KILLSHOT-Official-Audio-Blownaija.com_.mp3',
+=======
+import {getChartData, reward, getReelByTitle} from "../services/apiCall"
+// const eminem = [
+//     {
+//       src: 'http://blownaija.com/wp-content/uploads/2018/09/KILLSHOT-Official-Audio-Blownaija.com_.mp3',
+>>>>>>> 3f97725 (fourth commit from backend)
 //       image: '/Images/Play (1).png',
 //       title: 'Eminem - killshot',
 //       type: 'audio/mpeg',
 //     },
 // ]
+<<<<<<< HEAD
 =======
 import {getChartData, reward} from "../services/apiCall"
 const eminem = [
@@ -22,6 +30,8 @@ const eminem = [
     },
 ]
 >>>>>>> 3cbad28 (third commit for update)
+=======
+>>>>>>> 3f97725 (fourth commit from backend)
 function Chart () {
     const [chartData, setChartData] = useState({});
     const [loading, setLoading] = useState(true);

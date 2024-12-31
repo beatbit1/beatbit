@@ -4,6 +4,9 @@ const { calculateDailyReward } = require('../utils/calculateRewards');
 const ton = connectTON();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3f97725 (fourth commit from backend)
 /**
  * Reward a user by transferring tokens to their wallet address.
  * @param {string} walletAddress - The recipient's wallet address.
@@ -15,10 +18,13 @@ exports.rewardUser = async (walletAddress, action, stake) => {
     // Calculate reward tokens considering the action and stake
     const baseTokens = calculateDailyReward(action);
     const tokens = baseTokens * stake; // Adjust reward based on stake
+<<<<<<< HEAD
 =======
 exports.rewardUser = async (walletAddress, action) => {
     const tokens = calculateDailyReward(action);
 >>>>>>> 3cbad28 (third commit for update)
+=======
+>>>>>>> 3f97725 (fourth commit from backend)
 
     try {
         // Simulate a TON Blockchain transfer
@@ -26,10 +32,14 @@ exports.rewardUser = async (walletAddress, action) => {
             to: walletAddress,
             amount: tokens,
 <<<<<<< HEAD
+<<<<<<< HEAD
             message: `Reward distribution for action: ${action}, stake: ${stake}`,
 =======
             message: "Reward distribution",
 >>>>>>> 3cbad28 (third commit for update)
+=======
+            message: `Reward distribution for action: ${action}, stake: ${stake}`,
+>>>>>>> 3f97725 (fourth commit from backend)
         });
 
         return { success: true, transfer };
@@ -38,8 +48,13 @@ exports.rewardUser = async (walletAddress, action) => {
         return { success: false, error };
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 };
 
 =======
 };
 >>>>>>> 3cbad28 (third commit for update)
+=======
+};
+
+>>>>>>> 3f97725 (fourth commit from backend)

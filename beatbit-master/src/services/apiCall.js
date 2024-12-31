@@ -33,6 +33,7 @@ export const getChartData = () => API.get('/charts');
 export const connectWallet = (data) => API.post("/connect-wallet", data);
 export const getWalletAddress = (walletAddress) => API.get(`/user/${walletAddress}`);
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 //Reward API call
 export const reward = (data) => API.post('/rewards', data);
@@ -43,3 +44,8 @@ export const stakeTokens = (walletAddress, amount) => API.post(`/stake`, { walle
 =======
 export const reward = (data) => API.post('/rewards', data);
 >>>>>>> 3cbad28 (third commit for update)
+=======
+
+//Reward API call
+export const reward = (data) => API.post('/rewards', data);
+>>>>>>> 3f97725 (fourth commit from backend)

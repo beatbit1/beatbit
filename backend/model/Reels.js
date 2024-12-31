@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const reelSchema = new mongoose.Schema({
 <<<<<<< HEAD
+<<<<<<< HEAD
     title: { type: String, required: true },
     audioUrl: { type: String, required: true },
     imageUrl: { type: String, required: true },
@@ -14,6 +15,9 @@ const reelSchema = new mongoose.Schema({
 module.exports = mongoose.model('Musician', reelSchema);
 =======
   name: { type: String, required: true },
+=======
+//   name: { type: String, required: true },
+>>>>>>> 3f97725 (fourth commit from backend)
   title: { type: String, required: true },
   src: { type: String, required: true },
   image: { type: String, required: true },
