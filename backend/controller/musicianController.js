@@ -10,6 +10,21 @@ exports.getAllMusicians = async (req, res) => {
     }
 };
 
+
+// Fetch a single musician by title
+exports.getMusicianByTitle = async (req, res) => {
+    const { title } = req.params;
+    try {
+        const musician = await Reel.findOne({ title });
+        if (!musician) {
+            return res.status(404).json({ error: "Reel not found" });
+        }
+        res.status(200).json(musician);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch reel" });
+    }
+};
+
 // Add a new musician
 exports.addMusician = async (req, res) => {
     const { title, src, image, type, icon, name } = req.body;

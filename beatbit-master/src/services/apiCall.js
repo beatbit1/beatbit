@@ -10,6 +10,7 @@ const API = axios.create({
 export const musicians = () => API.get("/musicians");
 export const addMusician = (data) => API.post("/add", data);
 export const searchMusicians = (query) => API.get(`/musicians/search`, { params: { query } });
+export const getReelByTitle = (title) => API.get(`/musicians/${title}`);
 
 //upload API call
 export const uploadAudio = (formData) => API.post('/upload', formData, {
@@ -27,4 +28,6 @@ export const getChartData = () => API.get('/charts');
 //Connect Wallet API call
 export const connectWallet = (data) => API.post("/connect-wallet", data);
 export const getWalletAddress = (walletAddress) => API.get(`/user/${walletAddress}`);
+
+//Reward API call
 export const reward = (data) => API.post('/rewards', data);

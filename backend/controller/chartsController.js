@@ -1,5 +1,5 @@
-const MusicData = require('../models/MusicData');
-const User = require('../models/User');
+const MusicData = require('../model/MusicData');
+const User = require('../model/User');
 
 
 

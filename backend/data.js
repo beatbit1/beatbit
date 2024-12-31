@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const Reel = require("./model/Reels");
 const dotenv = require("dotenv");
 dotenv.config({path: "./config/.env"});
@@ -28,6 +29,12 @@ const reels = [
         image: '/Images/music1.png',
         type: 'audio/mpeg',
     },
+    {
+        src: 'http://blownaija.com/wp-content/uploads/2018/09/KILLSHOT-Official-Audio-Blownaija.com_.mp3',
+        image: '/Images/Play (1).png',
+        title: 'Eminem - killshot',
+        type: 'audio/mpeg',
+      },
 ];
 
 const insertReels = async () => {

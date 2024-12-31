@@ -5,8 +5,9 @@ const connectDB = require("./dbConnect/db");
 const cors = require("cors")
 const app = express();
 const musicianRoutes = require("./routes/musicianRoutes");
-const uploadRoutes = require("./routes/uploadRoutes.js");
-const rewardRoutes = require("./routes/rewardRoute")
+const uploadRoutes = require("./routes/uploadRoutes");
+const rewardRoutes = require("./routes/rewardRoute");
+const chartRoute = require("./routes/chartsRoutes");
 const path = require("path");
 
 
@@ -33,6 +34,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/v2", musicianRoutes);
 app.use("/api/v2", uploadRoutes);
 app.use("/api/v2", rewardRoutes);
+app.use("/api/v2", chartRoute);
 
 
 

@@ -1,10 +1,9 @@
 const TonWeb = require("tonweb");
 
 const connectTON = () => {
-    return new TonWeb({
-        // Replace with your TON Blockchain connection details
-        providerUrl: "https://main.ton.dev",
-    });
+  return new TonWeb({
+    providerUrl: "https://toncenter.com/api/v2/jsonRPC", 
+  });
 };
 
 module.exports = connectTON;

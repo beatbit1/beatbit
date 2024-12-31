@@ -1,5 +1,5 @@
 const express = require('express');
-const { getChartData } = require('../controllers/chartsController');
+const { getChartData } = require('../controller/chartsController');
 
 const router = express.Router();
 
