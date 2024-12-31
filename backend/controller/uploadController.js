@@ -23,7 +23,11 @@ exports.uploadAudio = async(req, res) => {
         audioFile.mv(audioPath);
 
 
+<<<<<<< HEAD
         // Validate category and get category name
+=======
+        // Validate category
+>>>>>>> 3cbad28 (third commit for update)
         const categoryExists = await Category.findById(category);
         if (!categoryExists) {
             return res.status(400).json({ message: 'Invalid category selected.' });

@@ -21,13 +21,18 @@ export const getCategories = () => API.get("/categories");
 export const searchUpload = () => API.get("/search");
 
 //Charts API call
+<<<<<<< HEAD
 export const getChartData = (query) => API.get('/charts', { params: { query } });
+=======
+export const getChartData = () => API.get('/charts');
+>>>>>>> 3cbad28 (third commit for update)
 
 
 
 //Connect Wallet API call
 export const connectWallet = (data) => API.post("/connect-wallet", data);
 export const getWalletAddress = (walletAddress) => API.get(`/user/${walletAddress}`);
+<<<<<<< HEAD
 
 //Reward API call
 export const reward = (data) => API.post('/rewards', data);
@@ -35,3 +40,6 @@ export const reward = (data) => API.post('/rewards', data);
 //Staking API
 export const getTokenDetails = (walletAddress) => API.get(`/tokens`, { params: { walletAddress } });
 export const stakeTokens = (walletAddress, amount) => API.post(`/stake`, { walletAddress, amount });
+=======
+export const reward = (data) => API.post('/rewards', data);
+>>>>>>> 3cbad28 (third commit for update)

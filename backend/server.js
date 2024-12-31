@@ -5,9 +5,14 @@ const connectDB = require("./dbConnect/db");
 const cors = require("cors")
 const app = express();
 const musicianRoutes = require("./routes/musicianRoutes");
+<<<<<<< HEAD
 const uploadRoutes = require("./routes/uploadRoutes");
 const userRoutes = require("./routes/userRoute");
 const chartRoute = require("./routes/chartsRoutes");
+=======
+const uploadRoutes = require("./routes/uploadRoutes.js");
+const rewardRoutes = require("./routes/rewardRoute")
+>>>>>>> 3cbad28 (third commit for update)
 const path = require("path");
 
 
@@ -37,8 +42,12 @@ app.get("/", (req, res) => {
 //route middlewares
 app.use("/api/v2", musicianRoutes);
 app.use("/api/v2", uploadRoutes);
+<<<<<<< HEAD
 app.use("/api/v2", userRoutes);
 app.use("/api/v2", chartRoute);
+=======
+app.use("/api/v2", rewardRoutes);
+>>>>>>> 3cbad28 (third commit for update)
 
 
 

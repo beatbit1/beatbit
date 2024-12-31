@@ -1,9 +1,15 @@
+<<<<<<< HEAD
 const MusicData = require('../model/MusicData');
 const User = require('../model/User');
+=======
+const MusicData = require('../models/MusicData');
+const User = require('../models/User');
+>>>>>>> 3cbad28 (third commit for update)
 
 
 
 exports.getChartData = async (req, res) => {
+<<<<<<< HEAD
 
     const { query } = req.query; // Get search query from frontend
     const queryParams = {};
@@ -26,6 +32,10 @@ exports.getChartData = async (req, res) => {
 
     try {
         const musicData = await MusicData.find(queryParams);
+=======
+    try {
+        const musicData = await MusicData.find({});
+>>>>>>> 3cbad28 (third commit for update)
         const userStats = await User.aggregate([
             { $group: { _id: null, activeListeners: { $sum: "$activeListeners" } } },
         ]);
