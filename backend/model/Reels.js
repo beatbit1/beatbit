@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 const reelSchema = new mongoose.Schema({
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3c7fa4b (fifth commit)
     title: { type: String, required: true },
     audioUrl: { type: String, required: true },
     imageUrl: { type: String, required: true },
@@ -10,6 +13,7 @@ const reelSchema = new mongoose.Schema({
     uploadedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     watchedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+<<<<<<< HEAD
 }, { timestamps: true });
 
 module.exports = mongoose.model('Musician', reelSchema);
@@ -39,3 +43,8 @@ module.exports = mongoose.model('Musician', reelSchema);
 
 module.exports = mongoose.model('Musician', reelSchema);
 >>>>>>> 3cbad28 (third commit for update)
+=======
+}, { timestamps: true });
+
+module.exports = mongoose.model('Musician', reelSchema);
+>>>>>>> 3c7fa4b (fifth commit)

@@ -31,10 +31,14 @@ const reels = [
     },
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
         srcsongUrl: 'http://blownaija.com/wp-content/uploads/2018/09/KILLSHOT-Official-Audio-Blownaija.com_.mp3',
 =======
         src: 'http://blownaija.com/wp-content/uploads/2018/09/KILLSHOT-Official-Audio-Blownaija.com_.mp3',
 >>>>>>> 3f97725 (fourth commit from backend)
+=======
+        srcsongUrl: 'http://blownaija.com/wp-content/uploads/2018/09/KILLSHOT-Official-Audio-Blownaija.com_.mp3',
+>>>>>>> 3c7fa4b (fifth commit)
         image: '/Images/Play (1).png',
         title: 'Eminem - killshot',
         type: 'audio/mpeg',

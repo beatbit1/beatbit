@@ -16,7 +16,7 @@ const rewardRoutes = require("./routes/rewardRoute")
 >>>>>>> 3cbad28 (third commit for update)
 =======
 const uploadRoutes = require("./routes/uploadRoutes");
-const rewardRoutes = require("./routes/rewardRoute");
+const userRoutes = require("./routes/userRoute");
 const chartRoute = require("./routes/chartsRoutes");
 >>>>>>> 3f97725 (fourth commit from backend)
 const path = require("path");
@@ -49,6 +49,9 @@ app.get("/", (req, res) => {
 app.use("/api/v2", musicianRoutes);
 app.use("/api/v2", uploadRoutes);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3c7fa4b (fifth commit)
 app.use("/api/v2", userRoutes);
 app.use("/api/v2", chartRoute);
 =======
