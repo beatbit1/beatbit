@@ -4,8 +4,28 @@ const User = require('../model/User');
 
 
 exports.getChartData = async (req, res) => {
+
+    const { query } = req.query; // Get search query from frontend
+    const queryParams = {};
+
+    if (query) {
+        // Title filter
+        queryParams.title = { $regex: query, $options: 'i' }; // Case-insensitive search
+
+        // Price filter (if there are min and max prices in the query)
+        if (typeof query === 'string' && query.includes('-')) {
+            const [minPrice, maxPrice] = query.split('-');
+            if (minPrice && maxPrice) {
+                queryParams.price = {
+                    $gte: Number(minPrice) || 0,
+                    $lte: Number(maxPrice) || Infinity
+                };
+            }
+        }
+    }
+
     try {
-        const musicData = await MusicData.find({});
+        const musicData = await MusicData.find(queryParams);
         const userStats = await User.aggregate([
             { $group: { _id: null, activeListeners: { $sum: "$activeListeners" } } },
         ]);

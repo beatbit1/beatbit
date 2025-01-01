@@ -21,7 +21,7 @@ export const getCategories = () => API.get("/categories");
 export const searchUpload = () => API.get("/search");
 
 //Charts API call
-export const getChartData = () => API.get('/charts');
+export const getChartData = (query) => API.get('/charts', { params: { query } });
 
 
 
@@ -31,3 +31,7 @@ export const getWalletAddress = (walletAddress) => API.get(`/user/${walletAddres
 
 //Reward API call
 export const reward = (data) => API.post('/rewards', data);
+
+//Staking API
+export const getTokenDetails = (walletAddress) => API.get(`/tokens`, { params: { walletAddress } });
+export const stakeTokens = (walletAddress, amount) => API.post(`/stake`, { walletAddress, amount });

@@ -72,3 +72,40 @@ exports.updateRewards = async (req, res) => {
         res.status(500).json({ message: "Error updating rewards", error });
     }
 };
+
+exports.getTokenDetails = async (req, res) => {
+    const { walletAddress } = req.query;
+
+    try {
+        const user = await User.findOne({ walletAddress });
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        res.status(200).json({
+            stakedTokens: user.stakedTokens,
+            rewards: user.rewards,
+        });
+    } catch (error) {
+        res.status(500).json({ error: "Server error" });
+    }
+};
+
+exports.stakeTokens = async (req, res) => {
+    const { walletAddress, amount } = req.body;
+
+    try {
+        const user = await User.findOne({ walletAddress });
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        user.stakedTokens += amount;
+        user.stakingHistory.push({ amount });
+        await user.save();
+
+        res.status(200).json({ message: "Tokens staked successfully", stakedTokens: user.stakedTokens });
+    } catch (error) {
+        res.status(500).json({ error: "Server error" });
+    }
+};

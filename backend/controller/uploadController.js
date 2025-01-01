@@ -23,7 +23,7 @@ exports.uploadAudio = async(req, res) => {
         audioFile.mv(audioPath);
 
 
-        // Validate category
+        // Validate category and get category name
         const categoryExists = await Category.findById(category);
         if (!categoryExists) {
             return res.status(400).json({ message: 'Invalid category selected.' });
@@ -35,7 +35,7 @@ exports.uploadAudio = async(req, res) => {
             description,
             imageUrl: `/uploads/images/${imageFile.name}`,
             audioUrl: `/uploads/audio/${audioFile.name}`,
-            category,
+            category: categoryExists.name, // Save the category name
             shortReels,
         });
 
@@ -53,7 +53,28 @@ exports.getAllUploads = async(rq, res) => {
     }catch(error){
         res.status(500).json({error: " Fail to upload audio"})
     }
-}
+};
+
+
+// Controller to fetch uploads by category
+exports.getUploadsByCategory = async (req, res) => {
+    try {
+        const { categoryName } = req.params;
+
+        // Find the category by name
+        const category = await Category.findOne({ category: categoryName });
+        if (!category) {
+            return res.status(404).json({ message: 'Category not found' });
+        }
+
+        // Fetch uploads by category ID
+        const uploads = await UploadFile.find({ category: category._id }).populate('category', 'name');
+        res.status(200).json(uploads);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch uploads by category" });
+    }
+};
+
 
 exports.getCategories = async (req, res) => {
     try {
