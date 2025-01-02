@@ -16,13 +16,13 @@ const PORT = process.env.PORT || 4000;
 
 //middle calls
 app.use(express.json());
-app.use(
-    cors({
-        origin: "http://localhost:5173", // Allow only this frontend URL
-        methods: "GET,POST,PUT,DELETE", // Allow specific HTTP methods
-        credentials: true, // Allow cookies and authentication headers
-    })
-);
+const corsOptions = {
+    origin: process.env.FRONTEND_URL || "http://localhost:5173", // Default to localhost for development
+    methods: "GET,POST,PUT,DELETE",
+    credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 
 //connect db
