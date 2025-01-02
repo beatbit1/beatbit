@@ -5,20 +5,10 @@ const connectDB = require("./dbConnect/db");
 const cors = require("cors")
 const app = express();
 const musicianRoutes = require("./routes/musicianRoutes");
-<<<<<<< HEAD
-<<<<<<< HEAD
 const uploadRoutes = require("./routes/uploadRoutes");
 const userRoutes = require("./routes/userRoute");
 const chartRoute = require("./routes/chartsRoutes");
-=======
-const uploadRoutes = require("./routes/uploadRoutes.js");
-const rewardRoutes = require("./routes/rewardRoute")
->>>>>>> 3cbad28 (third commit for update)
-=======
-const uploadRoutes = require("./routes/uploadRoutes");
-const userRoutes = require("./routes/userRoute");
-const chartRoute = require("./routes/chartsRoutes");
->>>>>>> 3f97725 (fourth commit from backend)
+
 const path = require("path");
 
 
@@ -48,19 +38,9 @@ app.get("/", (req, res) => {
 //route middlewares
 app.use("/api/v2", musicianRoutes);
 app.use("/api/v2", uploadRoutes);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 3c7fa4b (fifth commit)
 app.use("/api/v2", userRoutes);
 app.use("/api/v2", chartRoute);
-=======
-app.use("/api/v2", rewardRoutes);
-<<<<<<< HEAD
->>>>>>> 3cbad28 (third commit for update)
-=======
-app.use("/api/v2", chartRoute);
->>>>>>> 3f97725 (fourth commit from backend)
+
 
 
 

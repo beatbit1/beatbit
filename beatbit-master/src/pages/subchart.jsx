@@ -311,6 +311,7 @@ if (loading) {
                             <p>2K</p>
                             <p>$989k</p>
                         </div> */}
+                    </div>
                 </div>
             </section>
         </>
