@@ -10,14 +10,14 @@ import {getChartData,
     getWalletAddress
     } from "../services/apiCall";
 
-// const eminem = [
-//     {
-//       songUrl: 'http://blownaija.com/wp-content/uploads/2018/09/KILLSHOT-Official-Audio-Blownaija.com_.mp3',
-//       image: '/Images/Play (1).png',
-//       title: 'Eminem - killshot',
-//       type: 'audio/mpeg',
-//     },
-// ]
+const eminem = [
+    {
+      audioUrl: 'http://blownaija.com/wp-content/uploads/2018/09/KILLSHOT-Official-Audio-Blownaija.com_.mp3',
+      imageUrl: '/Images/Play (1).png',
+      title: 'Eminem - killshot',
+      type: 'audio/mpeg',
+    },
+]
 
 function SubChart () {
     const [chartData, setChartData] = useState({});
@@ -220,12 +220,12 @@ if (loading) {
                         </div>
 
                         {/*HERO COVER IMAGE WITH SONG */}
-                        {reelData && (
+                        {eminem && (
                         <div className="flex justify-left items-center ml-[20px] mt-[70px] sm:mt-[20px] md:mt-[20px] lg:mt-[70px] cursor-pointer">
                             <img className="w-[2.5%] mr-[20px]" 
-                            src={reelData.imageUrl}
-                            alt={`Cover for ${reelData.title}`} 
-                            onClick={() => handlePlayAudio(upload.audioUrl)}  // Play audio on image click
+                            src={eminem.imageUrl}
+                            alt={`Cover for ${eminem.title}`} 
+                            onClick={() => handlePlayAudio(eminem.audioUrl)}  // Play audio on image click
                             />
                      </div>
                      ) }
@@ -275,13 +275,13 @@ if (loading) {
                          key={song._d}>
                             <img
                             className="w-[25%]"
-                            src={song.imageUrl}
-                            alt={song.title}
+                            src={song?.imageUrl}
+                            alt={song?.title}
                             />
-                            <p>{song.title}</p>
+                            <p>{song?.title}</p>
                             {/*The price, trending, listeners, marketCaps from MusicData(Model)*/}
                             <p>{song.chartData?.price || "0.00"} BRB
-                                <span className={song.chartData.trending >= 0 ? "text-[#02DF18]" : "text-[#DE0808]"}>
+                                <span className={song.chartData?.trending >= 0 ? "text-[#02DF18]" : "text-[#DE0808]"}>
                                     {song.chartData?.trending >= 0 ? `+${song.chartData?.trending}` : song.chartData?.trendingPercentage}%
                                 </span>
                             </p>

@@ -3,7 +3,7 @@ const Category = require("../model/CategoryModel");
 const path = require("path");
 const fs = require("fs");
 
-exports.uploadAudio = async(req, res) => {
+exports.uploadAudio = async (req, res) => {
     try {
         const { title, description, category, shortReels } = req.body;
 
@@ -15,14 +15,26 @@ exports.uploadAudio = async(req, res) => {
         const imageFile = req.files.image;
         const audioFile = req.files.audio;
 
-        // Save files
-        const imagePath = path.join(__dirname, '../uploads/images/', imageFile.name);
-        const audioPath = path.join(__dirname, '../uploads/audio/', audioFile.name);
+        // Define upload directories
+        const uploadDir = path.join(__dirname, '../uploads');
+        const imageDir = path.join(uploadDir, 'images');
+        const audioDir = path.join(uploadDir, 'audio');
 
-        imageFile.mv(imagePath);
-        audioFile.mv(audioPath);
+        // Create directories if they don't exist
+        [imageDir, audioDir].forEach((dir) => {
+            if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+        });
 
-        const categoryExists = await Category.findById(category);
+        // Save file paths
+        const imagePath = path.join(imageDir, imageFile.name);
+        const audioPath = path.join(audioDir, audioFile.name);
+
+        // Move files to respective directories
+        await imageFile.mv(imagePath);
+        await audioFile.mv(audioPath);
+
+        // Validate category
+        const categoryExists = await Category.findOne({ name: category });
         if (!categoryExists) {
             return res.status(400).json({ message: 'Invalid category selected.' });
         }
@@ -33,16 +45,17 @@ exports.uploadAudio = async(req, res) => {
             description,
             imageUrl: `/uploads/images/${imageFile.name}`,
             audioUrl: `/uploads/audio/${audioFile.name}`,
-            category: categoryExists.name, // Save the category name
+            category: categoryExists._id, 
             shortReels,
         });
 
         await newUpload.save();
         res.status(201).json({ message: 'Upload successful', audio: newUpload });
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: err.message });
+        res.status(500).json({ message: 'Server error', error: error.message });
     }
-}
+};
+
 
 exports.getAllUploads = async(rq, res) => {
     try{

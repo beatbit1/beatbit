@@ -2,7 +2,7 @@ import ReelsNavBar from "./reelsNavbar"
 import Sidemenu from "../components/sidemenu"
 import React, { useState, useEffect, useRef } from 'react';
 import debounce from "lodash.debounce"
-import {musicians, searchMusicians} from "../services/apiCall"; // Import Axios for API calls
+import {musicians, searchMusicians, getAllUploads} from "../services/apiCall"; // Import Axios for API calls
 
 function Dashboard () {
     const [currentReelIndex, setCurrentReelIndex] = useState(null);
@@ -12,39 +12,60 @@ function Dashboard () {
 
 
     // Fetch reels from the backend
-    const fetchReels = async () => {
-      try {
-        const response = await musicians();
-        setReels(response.data);
-      } catch (error) {
-        console.error("Error fetching reels:", error);
-      }
-    };
+  const fetchReels = async () => {
+    try {
+      const response = await musicians();
+      setReels(Array.isArray(response.data) ? response.data : []); // Ensure reels is an array
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching reels:", error);
+    }
+  };
+
+  // Fetch new uploads and update reels state
+  const fetchUploads = async () => {
+    try {
+        const response = await getAllUploads(); // Fetch the uploads
+        const newReels = response.data.map(upload => ({
+            title: upload.title,
+            audioUrl: upload.audioUrl,
+            imageUrl: upload.imageUrl,
+        }));
+        setReels((prevReels) => [...prevReels, ...newReels]); // Add new uploads to the reels
+    } catch (error) {
+        console.error("Error fetching uploads:", error);
+    }
+};
   
    // Fetch reels based on search query
-   const handleSearch = debounce(async () => {
+  const handleSearch = debounce(async () => {
     if (searchQuery.trim() === "") {
-        // Fetch all reels if search query is empty
-        fetchReels();
+      fetchReels();
     } else {
-        try {
-            const response = await searchMusicians(searchQuery); // Search API call
-            setReels(response.data);
-        } catch (error) {
-            console.error("Error searching reels:", error);
-        }
+      try {
+        const response = await searchMusicians(searchQuery); // Search API call
+        setReels(Array.isArray(response.data) ? response.data : []); // Ensure reels is an array
+      } catch (error) {
+        console.error("Error searching reels:", error);
+      }
     }
-}, 300); // 300ms debounce to optimize API calls
-  
+  }, 300); // 300ms debounce to optimize API calls
+
+
     useEffect(() => {
       fetchReels();
     }, []);
+
+    useEffect(() => {
+      fetchUploads(); // Fetch new uploads whenever the component mounts or after an upload
+  }, []);
 
 
   // Function to handle when a reel becomes visible
     const handleReelVisibility = (index) => {
         setCurrentReelIndex(index); // Update current reel index to the visible one
     };
+
     const playAudio = (index) => {
         if (audioRefs.current[index]) {
           audioRefs.current[index].play();
@@ -71,6 +92,7 @@ function Dashboard () {
           });
         }
     }, [currentReelIndex]);
+
     useEffect(() => {
         const options = {
           root: null,
@@ -116,14 +138,16 @@ function Dashboard () {
                     >
                         <img
                         className="w-[22%] cursor-pointer rounded-2xl sm:w-[50%] md:w-[60%] lg:w-[22%]"
-                        src={reel.image}
+                        src={reel.imageUrl}
                         alt={`Cover for ${reel.title}`}
-                        onClick={() => (audioRefs.current[index].paused ? playAudio(index) : pauseAudio(index))}
+                        onClick={() =>
+                          audioRefs.current[index].paused ? playAudio(index) : pauseAudio(index)
+                        }
                         />
                         <h2 className="mt-[30px] text-white text-[20px] sm:text-[16px] md:text-[17px] lg:text-[20px]">{reel.title}</h2>
                         <audio
                           ref={(el) => (audioRefs.current[index] = el)}
-                          src={reel.src}
+                          src={reel.audioUrl}
                           autoPlay={false}
                           controls={false}
                         />

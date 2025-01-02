@@ -17,13 +17,24 @@ const PORT = process.env.PORT || 4000;
 //middle calls
 app.use(express.json());
 const corsOptions = {
-    origin: process.env.FRONTEND_URL || "http://localhost:5173", // Default to localhost for development
+    origin: (origin, callback) => {
+        const allowedOrigins = [
+            process.env.FRONTEND_URL, // Production frontend
+            "http://localhost:5173", // Local frontend
+        ];
+
+        // Allow requests with no origin (like mobile apps, server-to-server requests)
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
     methods: "GET,POST,PUT,DELETE",
-    credentials: true,
+    credentials: true, // Allows sending cookies
 };
 
 app.use(cors(corsOptions));
-
 
 //connect db
 connectDB()

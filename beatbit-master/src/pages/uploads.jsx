@@ -1,6 +1,6 @@
 import ReelsNavBar from "./reelsNavbar"
 import Sidemenu from "../components/sidemenu";
-import {uploadAudio, getCategories, searchUpload} from "../services/apiCall";
+import {uploadAudio, getCategories } from "../services/apiCall";
 import React, { useState, useEffect } from 'react';
 
 
@@ -15,25 +15,30 @@ function Uploads () {
     
 
     useEffect(() => {
-        const fetchCategories = async() => {
+        const fetchCategories = async () => {
             try {
                 const response = await getCategories();
-                setCategories(response.data);
+                if (Array.isArray(response.data)) {
+                    setCategories(response.data); // Ensure the data is an array
+                } else {
+                    setCategories([]); // Fallback to an empty array
+                }
             } catch (error) {
-                console.error("Fail to fetch category", error)
+                console.error("Failed to fetch categories:", error);
             }
         };
         fetchCategories();
-    },[])
+    }, []);
 
 
-    const handleUpload = async(e) => {
+    const handleUpload = async (e) => {
         e.preventDefault();
-
-        if(!audioFile || audioImage){
-            alert("Please select both audio and image files to upload!")
+    
+        if (!audioFile || !audioImage) {
+            alert("Please select both audio and image files to upload!");
+            return;
         }
-
+    
         const formData = new FormData();
         formData.append("title", audioTitle);
         formData.append("description", audioDescription);
@@ -41,16 +46,22 @@ function Uploads () {
         formData.append("audio", audioFile);
         formData.append("category", category);
         formData.append("shortReels", shortReels);
-
-        try{
+    
+        try {
             const response = await uploadAudio(formData);
-            alert(response.data.message);
-        }catch(err){
-            console.error("Upload failed", err);
+            if (response.status === 201) {
+                alert(response.data.message);
+                setAudioTitle("");
+                setAudioDescription("");
+                setAudioImage(null);
+                setAudioFile(null);
+                setCategory("");
+                setShortReels(false);
+            }
+        } catch (error) {
+            console.error("Upload failed:", error.response?.data || error.message);
             alert("Failed to upload audio.");
         }
-    
-        
     };
 
     // const handleSearch = async (e) => {
@@ -130,7 +141,7 @@ function Uploads () {
                          >
                             <option value="" className="text-white">Select Category</option>
                             {categories.map((cat) => (
-                                <option key={cat._id} value={cat.name}>
+                                <option key={cat._id} value={cat._id}>
                                     {cat.name}
                                 </option>
                             ))}
@@ -146,10 +157,10 @@ function Uploads () {
                         </div>
                     </div>
                 </div>
-                <a href="/connect" rel="noopener noreferrer">
+                
                 <button  
                 className="flex justify-center  py-[10px] px-[70px] mt-[30px] rounded-md text-[15px] font-medium shadow-md text-white hover:bg-[#ff014f] hover:text-white bg-[#DE0808] w-[50%] sm:hidden md:hidden lg:flex" 
-                type="submit" onClick={handleUpload}>Upload & Publish</button></a>
+                type="submit" onClick={handleUpload}>Upload & Publish</button>
             </section>
         </>
     )
