@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 import React, { useState, useEffect, useRef } from 'react';
 import ReelsNavBar from "./reelsNavbar"
 import Sidemenu from "../components/sidemenu";
@@ -101,130 +99,13 @@ function SubChart () {
             alert("Failed to stake tokens.");
         }
     };
-=======
-import React, {useState, useEffect} from "react"
-=======
-import React, { useState, useEffect, useRef } from 'react';
->>>>>>> 3c7fa4b (fifth commit)
-import ReelsNavBar from "./reelsNavbar"
-import Sidemenu from "../components/sidemenu";
-import {getChartData, 
-    reward, 
-    getReelByTitle, 
-    getTokenDetails, 
-    stakeTokens,
-    getAllUploads,
-    getWalletAddress
-    } from "../services/apiCall";
-
-// const eminem = [
-//     {
-//       songUrl: 'http://blownaija.com/wp-content/uploads/2018/09/KILLSHOT-Official-Audio-Blownaija.com_.mp3',
-//       image: '/Images/Play (1).png',
-//       title: 'Eminem - killshot',
-//       type: 'audio/mpeg',
-//     },
-// ]
-
-function SubChart () {
-    const [chartData, setChartData] = useState({});
-    const [uploads, setUploads] = useState([]);
-    const [walletAddress, setWalletAddress] = useState(""); // State to store wallet address
-    const [loading, setLoading] = useState(true);
-    const [searchQuery, setSearchQuery] = useState('')
-    const [userReward, setUserReward] = useState(null); // State to store reward data
-    const [reelData, setReelData] = useState(null); // State for dynamic reel data
-<<<<<<< HEAD
->>>>>>> 3f97725 (fourth commit from backend)
-=======
-    const [tokenDetails, setTokenDetails] = useState({ stakedTokens: 0, rewards: 0 });
-    const [currentAudio, setCurrentAudio] = useState(null);  // State to store the current audio being played
-    const [isPlaying, setIsPlaying] = useState(false);  // To track if audio is playing
-    const [stakeAmount, setStakeAmount] = useState("");
-    const audioRefs = useRef([]); // Refs to all audio elements
-
-
-    // Fetch wallet address
-    useEffect(() => {
-        const fetchWalletAddress = async () => {
-            try {
-                const response = await getWalletAddress(); // Fetch wallet address from backend
-                setWalletAddress(response.data.walletAddress);
-            } catch (error) {
-                console.error("Error fetching wallet address:", error);
-            }
-        };
-
-        fetchWalletAddress();
-    }, []);
-
-    // Fetch token details when walletAddress is available
-    useEffect(() => {
-        if (walletAddress) {
-            const fetchTokenDetails = async () => {
-                try {
-                    const response = await getTokenDetails(walletAddress);
-                    setTokenDetails(response.data);
-                } catch (error) {
-                    console.error("Error fetching token details:", error);
-                }
-            };
-
-            fetchTokenDetails();
-        }
-    }, [walletAddress]);
-
-
-
-    // Fetch all uploaded songs
-    useEffect(() => {
-        const fetchUploads = async () => {
-            try {
-                const response = await getAllUploads();
-                setUploads(response.data);
-            } catch (error) {
-                console.error('Error fetching uploads:', error);
-            }
-        };
-        fetchUploads();
-    }, []);
-
-
-    const handleStake = async () => {
-        if (!stakeAmount || isNaN(stakeAmount)) {
-            alert("Enter a valid amount to stake.");
-            return;
-        }
-
-        try {
-            const response = await stakeTokens(walletAddress, Number(stakeAmount));
-            setTokenDetails((prev) => ({
-                ...prev,
-                stakedTokens: response.data.stakedTokens,
-            }));
-            setStakeAmount("");
-            alert("Tokens staked successfully!");
-        } catch (error) {
-            console.error("Error staking tokens:", error);
-            alert("Failed to stake tokens.");
-        }
-    };
->>>>>>> 3c7fa4b (fifth commit)
-
 
     // Fetch chart data from the backend
     useEffect(() => {
         const fetchChartData = async () => {
             try {
-<<<<<<< HEAD
-<<<<<<< HEAD
+
                 const response = await getChartData({ query: searchQuery });
-=======
-                const response = await getChartData();
->>>>>>> 3f97725 (fourth commit from backend)
-=======
-                const response = await getChartData({ query: searchQuery });
->>>>>>> 3c7fa4b (fifth commit)
                 setChartData(response.data.musicData || []);
                 setLoading(false);
             } catch (error) {
@@ -233,29 +114,19 @@ function SubChart () {
             }
         };
         fetchChartData();
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 3c7fa4b (fifth commit)
+
     }, [searchQuery]);
 
     const handleSearch = (event) => {
         setSearchQuery(event.target.value);
     };
-<<<<<<< HEAD
-=======
-    }, []);
->>>>>>> 3f97725 (fourth commit from backend)
-=======
->>>>>>> 3c7fa4b (fifth commit)
+
+
 
     
   // Fetch user reward dynamically
   useEffect(() => {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 3c7fa4b (fifth commit)
+
     if (walletAddress) {
         const fetchReward = async () => {
             try {
@@ -265,30 +136,10 @@ function SubChart () {
                 console.error("Error fetching user reward:", error);
             }
         };
-<<<<<<< HEAD
 
         fetchReward();
     }
 }, [walletAddress]);
-=======
-    const fetchReward = async () => {
-      try {
-        const response = await reward({ walletAddress }); 
-        setUserReward(response.data || { dailyReward: 0 });
-      } catch (error) {
-        console.error("Error fetching user reward:", error);
-      }
-    };
-
-    fetchReward();
-  }, []);
->>>>>>> 3f97725 (fourth commit from backend)
-=======
-
-        fetchReward();
-    }
-}, [walletAddress]);
->>>>>>> 3c7fa4b (fifth commit)
 
    // Fetch specific reel by title
    useEffect(() => {
@@ -303,10 +154,7 @@ function SubChart () {
     fetchReelData();
 }, []);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 3c7fa4b (fifth commit)
+
 // Function to handle image click and play audio
 const handlePlayAudio = (audioUrl) => {
     if (currentAudio && currentAudio !== audioUrl) {
@@ -322,16 +170,11 @@ const handlePlayAudio = (audioUrl) => {
 };
 
 // Function to pause the audio
-const handlePauseAudio = () => {
+const handlePauseAudio = () => { //Not implemented
     audioRef.current.pause();
     setIsPlaying(false);
 };
 
-<<<<<<< HEAD
-=======
->>>>>>> 3f97725 (fourth commit from backend)
-=======
->>>>>>> 3c7fa4b (fifth commit)
 if (loading) {
     return (
         <div className="flex justify-center items-center h-screen text-white">
@@ -361,14 +204,6 @@ if (loading) {
                             <div className="text-white bg-[#D9D9D9] mr-[20px] ml-[80px] rounded-xl flex justify-center items-center flex-col text-[19px] mt-[20px] py-[10px] px-[10px] w-[60%]  sm:w-full md:w-full lg:w-[60%] sm:mr-[5px] md:mr-[5px] lg:mr-[5px] md sm:ml-[5px] md:ml-[5px] lg:ml-[80px]">
                                 <p>Daily reward</p>
                                 <p>{userReward?.dailyReward || "0"} BRD</p>
-<<<<<<< HEAD
-<<<<<<< HEAD
-                                {/*marketCaps - from MusicData(Model)*/}
-=======
->>>>>>> 3f97725 (fourth commit from backend)
-=======
-                                {/*marketCaps - from MusicData(Model)*/}
->>>>>>> 3c7fa4b (fifth commit)
                                 <p>${chartData[0]?.marketCaps || "0"} </p>
                             </div>
                             {/* Trending section - from MusicData(Model)*/}
@@ -383,8 +218,7 @@ if (loading) {
                         <p>{chartData?.activeListeners || "0"}</p>
                         </div>
                         </div>
-<<<<<<< HEAD
-<<<<<<< HEAD
+
                         {/*HERO COVER IMAGE WITH SONG */}
                         {reelData && (
                         <div className="flex justify-left items-center ml-[20px] mt-[70px] sm:mt-[20px] md:mt-[20px] lg:mt-[70px] cursor-pointer">
@@ -393,38 +227,12 @@ if (loading) {
                             alt={`Cover for ${reelData.title}`} 
                             onClick={() => handlePlayAudio(upload.audioUrl)}  // Play audio on image click
                             />
-=======
-=======
-                        {/*HERO COVER IMAGE WITH SONG */}
->>>>>>> 3c7fa4b (fifth commit)
-                        {reelData && (
-                        <div className="flex justify-left items-center ml-[20px] mt-[70px] sm:mt-[20px] md:mt-[20px] lg:mt-[70px] cursor-pointer">
-                            <img className="w-[2.5%] mr-[20px]" 
-<<<<<<< HEAD
-                            src={reelData.image}
-                            alt={`Cover for ${reelData.title}`} />
->>>>>>> 3f97725 (fourth commit from backend)
-=======
-                            src={reelData.imageUrl}
-                            alt={`Cover for ${reelData.title}`} 
-                            onClick={() => handlePlayAudio(upload.audioUrl)}  // Play audio on image click
-                            />
->>>>>>> 3c7fa4b (fifth commit)
-                            <p className="text-white text-[20px]">{reelData.title}</p>
-                        </div>
-                         ) }
-                    </div>
+                     </div>
+                     ) }
                     {/*Artist, Category, Price section*/}
                     <div className="text-white grid grid-cols-3 gap-4 text-[19px] mt-[30px] sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
                         <h2>Artist: {chartData[0]?.artist || "N/A"}</h2>
-<<<<<<< HEAD
-<<<<<<< HEAD
-                        {/*GET category section*/}
-=======
->>>>>>> 3f97725 (fourth commit from backend)
-=======
-                        {/*GET category section*/}
->>>>>>> 3c7fa4b (fifth commit)
+
                         <h2>Category: {chartData?.category}</h2>
                         <h2>Price: {chartData[0]?.price || "0"} BRB<span className="text-[#02DF18]">+4</span></h2>
                     </div>
@@ -435,10 +243,7 @@ if (loading) {
                     </div>
                     {/*Token Amount button and Staking button*/}
                     <div className="flex justify-center items-center">
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 3c7fa4b (fifth commit)
+
                         {/* <button  
                         className='text-white border border-white mr-[30px] bg-transparent py-[5px] px-[30px] rounded-md text-[20px]' 
                         type='button'>Token Amount</button> */}
@@ -454,13 +259,6 @@ if (loading) {
                         onClick={handleStake}
                         className='text-white bg-[#DE0808] py-[5px] px-[30px] rounded-md text-[20px]' 
                         type='button'>Stake</button>
-<<<<<<< HEAD
-=======
-                        <button  className='text-white border border-white mr-[30px] bg-transparent py-[5px] px-[30px] rounded-md text-[20px]' type='button'>Token Amount</button>
-                        <button className='text-white bg-[#DE0808] py-[5px] px-[30px] rounded-md text-[20px]' type='button'>Stake</button>
->>>>>>> 3f97725 (fourth commit from backend)
-=======
->>>>>>> 3c7fa4b (fifth commit)
                     </div>
                     <div>
                         <div className="grid grid-cols-5 gap-4 mt-[40px] text-white text-[18px] mb-[20px] sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-5">
@@ -470,16 +268,12 @@ if (loading) {
                             <h2>Listeners</h2>
                             <h2>market caps </h2>
                         </div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 3c7fa4b (fifth commit)
+
                         {/*Mapping List of songs from upload.jsx Songs(audioUrl - uploadModel), title(uploadModel), imageUrl(uploadModel) - section*/}
                         {uploads.map((song) => (
                         <div className="grid grid-cols-5 gap-4 text-white text-[19px] mb-[20px] sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-5"
                          key={song._d}>
                             <img
-<<<<<<< HEAD
                             className="w-[25%]"
                             src={song.imageUrl}
                             alt={song.title}
@@ -496,27 +290,6 @@ if (loading) {
                         </div>
                         ))}
                         
-=======
-                        {chartData.map((song, index) => (
-                        <div className="grid grid-cols-5 gap-4 text-white text-[19px] mb-[20px] sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-5">
-=======
->>>>>>> 3c7fa4b (fifth commit)
-                            className="w-[25%]"
-                            src={song.imageUrl}
-                            alt={song.title}
-                            />
-                            <p>{song.title}</p>
-                            {/*The price, trending, listeners, marketCaps from MusicData(Model)*/}
-                            <p>{song.chartData?.price || "0.00"} BRB
-                                <span className={song.chartData.trending >= 0 ? "text-[#02DF18]" : "text-[#DE0808]"}>
-                                    {song.chartData?.trending >= 0 ? `+${song.chartData?.trending}` : song.chartData?.trendingPercentage}%
-                                </span>
-                            </p>
-                            <p>{song.chartData?.listeners}</p>
-                            <p>${song.chartData?.marketCaps}</p>
-                        </div>
-                        ))}
-<<<<<<< HEAD
                         {/* <div className="grid grid-cols-5 gap-4 text-white text-[19px] mb-[20px] sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-5">
                             <img className="w-[25%]" src="/Images/s2.png" alt="" />
                             <p>kings shall not fall</p>
@@ -538,13 +311,10 @@ if (loading) {
                             <p>2K</p>
                             <p>$989k</p>
                         </div> */}
->>>>>>> 3f97725 (fourth commit from backend)
-=======
-                        
->>>>>>> 3c7fa4b (fifth commit)
-                    </div>
+                </div>
             </section>
         </>
     )
 }
 export default SubChart
+

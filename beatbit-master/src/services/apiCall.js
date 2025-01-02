@@ -21,23 +21,12 @@ export const getCategories = () => API.get("/categories");
 export const searchUpload = () => API.get("/search");
 
 //Charts API call
-<<<<<<< HEAD
-<<<<<<< HEAD
-export const getChartData = (query) => API.get('/charts', { params: { query } });
-=======
-export const getChartData = () => API.get('/charts');
->>>>>>> 3cbad28 (third commit for update)
-=======
-export const getChartData = (query) => API.get('/charts', { params: { query } });
->>>>>>> 3c7fa4b (fifth commit)
 
-
+export const getChartData = (query) => API.get('/charts', { params: { query } });
 
 //Connect Wallet API call
 export const connectWallet = (data) => API.post("/connect-wallet", data);
 export const getWalletAddress = (walletAddress) => API.get(`/user/${walletAddress}`);
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 //Reward API call
 export const reward = (data) => API.post('/rewards', data);
@@ -45,14 +34,4 @@ export const reward = (data) => API.post('/rewards', data);
 //Staking API
 export const getTokenDetails = (walletAddress) => API.get(`/tokens`, { params: { walletAddress } });
 export const stakeTokens = (walletAddress, amount) => API.post(`/stake`, { walletAddress, amount });
-<<<<<<< HEAD
-=======
-export const reward = (data) => API.post('/rewards', data);
->>>>>>> 3cbad28 (third commit for update)
-=======
 
-//Reward API call
-export const reward = (data) => API.post('/rewards', data);
->>>>>>> 3f97725 (fourth commit from backend)
-=======
->>>>>>> 3c7fa4b (fifth commit)

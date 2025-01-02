@@ -71,10 +71,6 @@ exports.updateRewards = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: "Error updating rewards", error });
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 3c7fa4b (fifth commit)
 };
 
 exports.getTokenDetails = async (req, res) => {
@@ -112,9 +108,5 @@ exports.stakeTokens = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: "Server error" });
     }
-<<<<<<< HEAD
-=======
->>>>>>> 3cbad28 (third commit for update)
-=======
->>>>>>> 3c7fa4b (fifth commit)
+
 };
