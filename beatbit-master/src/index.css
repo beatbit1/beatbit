@@ -53,7 +53,7 @@ body {
 }
 .charts {
   background-image: url("/Images/charts.jpg");
-  background-position: center;
+  background-position: left center;
   background-size: cover;
   background-repeat: no-repeat;
 }
