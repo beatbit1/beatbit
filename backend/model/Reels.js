@@ -6,6 +6,8 @@ const reelSchema = new mongoose.Schema({
     audioUrl: { type: String, required: true },
     imageUrl: { type: String, required: true },
     type: { type: String, default: 'audio/mpeg' },
+    likeicon: {type: String, required: true},
+    dislikeicon: {type: String, required: true},
     uploadedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     watchedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],

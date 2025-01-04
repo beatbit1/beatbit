@@ -171,6 +171,10 @@ function Dashboard () {
                           autoPlay={false}
                           controls={false}
                         />
+                        <div className="absolute left-[65%] w-[5%]">
+                          <img src={reel.likeicon} alt="like-icon" />
+                          <img src={reel.dislikeicon} alt="dislike-icon" />
+                        </div>
                     </div>
                     ))}
                 </div>

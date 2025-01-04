@@ -214,8 +214,8 @@ if (loading) {
                         </div>
                         {/* Active Listener section*/}
                         <div className="text-white bg-[#D9D9D9] rounded-xl flex justify-center items-center flex-col text-[19px] mt-[20px] py-[10px] px-[10px] w-[15%] sm:w-[90%] md:w-[90%] lg:w-[15%] sm:mr-[5px] md:mr-[5px] lg:mr-[5px] md sm:ml-[5px] md:ml-[5px] lg:ml-[80px]">
-                        <p>Active  listener</p>
-                        <p>{chartData?.activeListeners || "0"}</p>
+                            <p>Active  listener</p>
+                            <p>{chartData?.activeListeners || "0"}</p>
                         </div>
                         </div>
 
@@ -227,10 +227,11 @@ if (loading) {
                             alt={`Cover for ${eminem.title}`} 
                             onClick={() => handlePlayAudio(eminem.audioUrl)}  // Play audio on image click
                             />
-                     </div>
-                     ) }
-                    {/*Artist, Category, Price section*/}
-                    <div className="text-white grid grid-cols-3 gap-4 text-[19px] mt-[30px] sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
+                    </div>
+                    )}
+                </div>
+                {/*Artist, Category, Price section*/}
+                <div className="text-white grid grid-cols-3 gap-4 text-[19px] mt-[30px] sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
                         <h2>Artist: {chartData[0]?.artist || "N/A"}</h2>
 
                         <h2>Category: {chartData?.category}</h2>
@@ -242,22 +243,22 @@ if (loading) {
                         <h2>Market caps: ${chartData[0]?.marketCaps || "0"}</h2>
                     </div>
                     {/*Token Amount button and Staking button*/}
-                    <div className="flex justify-center items-center">
+                    <div className="flex justify-center items-center sm:flex-col md:flex-col lg:flex-row">
 
                         {/* <button  
                         className='text-white border border-white mr-[30px] bg-transparent py-[5px] px-[30px] rounded-md text-[20px]' 
                         type='button'>Token Amount</button> */}
-                        <h2 className="text-white">Token Amount</h2>
+                        <h2 className="text-white sm:mb-[10px] md:mb-[10px] lg:mb-0">Token Amount</h2>
                         <input
                             type="number"
                             value={stakeAmount}
                             onChange={(e) => setStakeAmount(e.target.value)}
                             placeholder="Enter amount to stake"
-                            className="stake-input"
+                            className="stake-input ml-[20px] outline-none px-[10px] py-[5px] rounded-md sm:mb-[10px] md:mb-[10px] lg:mb-0"
                         />
                         <button 
                         onClick={handleStake}
-                        className='text-white bg-[#DE0808] py-[5px] px-[30px] rounded-md text-[20px]' 
+                        className='text-white bg-[#DE0808] py-[5px] px-[25px] rounded-md text-[16px]' 
                         type='button'>Stake</button>
                     </div>
                     <div>
@@ -289,30 +290,7 @@ if (loading) {
                             <p>${song.chartData?.marketCaps}</p>
                         </div>
                         ))}
-                        
-                        {/* <div className="grid grid-cols-5 gap-4 text-white text-[19px] mb-[20px] sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-5">
-                            <img className="w-[25%]" src="/Images/s2.png" alt="" />
-                            <p>kings shall not fall</p>
-                            <p>0.2450btb<span className="text-[#DE0808]">-5%</span></p>
-                            <p>2.8K</p>
-                            <p>$567k</p>
-                        </div>
-                        <div className="grid grid-cols-5 gap-4 text-white text-[19px] mb-[20px]">
-                            <img className="w-[25%]" src="/Images/s3.png" alt="" />
-                            <p>mystery on thy</p>
-                            <p>0.2300btb<span className="text-[#DE0808]">-8%</span></p>
-                            <p>2.4K</p>
-                            <p>$898k</p>
-                        </div>
-                        <div className="grid grid-cols-5 gap-4 text-white text-[19px] mb-[20px] sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-5">
-                            <img className="w-[25%]" src="/Images/s4.png" alt="" />
-                            <p>Demon is no</p>
-                            <p> 0.1300btb<span className="text-[#02DF18]">+9%</span></p>
-                            <p>2K</p>
-                            <p>$989k</p>
-                        </div> */}
                     </div>
-                </div>
             </section>
         </>
     )
