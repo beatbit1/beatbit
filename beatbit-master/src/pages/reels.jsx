@@ -4,6 +4,25 @@ import React, { useState, useEffect, useRef } from 'react';
 import debounce from "lodash.debounce"
 import {musicians, searchMusicians, getAllUploads} from "../services/apiCall"; // Import Axios for API calls
 
+
+const ReelMockData = [
+  
+  {
+      audioUrl: 'https://cdn3.justnaija.me/uploads/music/2020/08/Burna-Boy-Monsters-You-Made-ft-Chris-Martin-(JustNaija.com).mp3',
+      title: 'Monster you made by Burnaboy',
+      imageUrl: '/Images/music1.png',
+      type: 'audio/mpeg',
+  },
+  {
+      audioUrl: 'https://cdn.val9ja.com/wp-content/uploads/2024/04/Burna_Boy_Ft_Prince_Swanny_-_Tested_Approved_Trusted.mp3',
+      title: 'Tested, Approved & Trusted (feat. Prince Swanny)',
+      imageUrl: '/Images/music1.png',
+      type: 'audio/mpeg',
+  },
+  
+];
+
+
 function Dashboard () {
     const [currentReelIndex, setCurrentReelIndex] = useState(null);
     const [uploads, setUploads] = useState([]);
@@ -149,6 +168,34 @@ function Dashboard () {
                         <audio
                           ref={(el) => (audioRefs.current[index] = el)}
                           src={reel.audioUrl}
+                          autoPlay={false}
+                          controls={false}
+                        />
+                    </div>
+                    ))}
+                </div>
+            </section>
+                    {/*From Mock data - add engagement buttons here*/}
+            <section>
+                <div className="reels-container">
+                    {ReelMockData.map((reelMock, index) => (
+                    <div
+                        className="reel flex justify-center items-center flex-col pt-[80px]"
+                        key={index}
+                        data-index={index}
+                    >
+                        <img
+                        className="w-[22%] cursor-pointer rounded-2xl sm:w-[50%] md:w-[60%] lg:w-[22%]"
+                        src={reelMock.imageUrl}
+                        alt={`Cover for ${reelMock.title}`}
+                        onClick={() =>
+                          audioRefs.current[index].paused ? playAudio(index) : pauseAudio(index)
+                        }
+                        />
+                        <h2 className="mt-[30px] text-white text-[20px] sm:text-[16px] md:text-[17px] lg:text-[20px]">{reel.title}</h2>
+                        <audio
+                          ref={(el) => (audioRefs.current[index] = el)}
+                          src={reelMock.audioUrl}
                           autoPlay={false}
                           controls={false}
                         />
