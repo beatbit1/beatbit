@@ -9,7 +9,7 @@ const ReelMockData = [
   
   {
     audioUrl: 'https://cdn3.justnaija.me/uploads/music/2020/08/Burna-Boy-Monsters-You-Made-ft-Chris-Martin-(JustNaija.com).mp3',
-    title: 'Monster you made by Burnaboy',
+    title: 'Monster you made by Burnaboy - mock data',
     imageUrl: '/Images/music1.png',
     type: 'audio/mpeg',
     likeicon: '/Images/like.png', //add this icon - surround it button element
@@ -17,7 +17,7 @@ const ReelMockData = [
 },
 {
     audioUrl: 'https://cdn.val9ja.com/wp-content/uploads/2024/04/Burna_Boy_Ft_Prince_Swanny_-_Tested_Approved_Trusted.mp3',
-    title: 'Tested, Approved & Trusted (feat. Prince Swanny)',
+    title: 'Tested, Approved & Trusted (feat. Prince Swanny) - mock data',
     imageUrl: '/Images/music1.png',
     type: 'audio/mpeg',
     likeicon: '/Images/like.png', //add this icon - surround it button element
@@ -50,7 +50,7 @@ function Dashboard () {
   const fetchUploads = async () => {
     try {
         const response = await getAllUploads(); // Fetch the uploads
-        const newReels = response.uploads.map(upload => ({
+        const newReels = response.uploads?.map(upload => ({
             title: upload.title,
             audioUrl: upload.audioUrl,
             imageUrl: upload.imageUrl,
@@ -200,7 +200,7 @@ function Dashboard () {
                           audioRefs.current[index].paused ? playAudio(index) : pauseAudio(index)
                         }
                         />
-                        <h2 className="mt-[30px] text-white text-[20px] sm:text-[16px] md:text-[17px] lg:text-[20px]">{reel.title}</h2>
+                        <h2 className="mt-[30px] text-white text-[20px] sm:text-[16px] md:text-[17px] lg:text-[20px]">{reelMock.title}</h2>
                         <audio
                           ref={(el) => (audioRefs.current[index] = el)}
                           src={reelMock.audioUrl}
