@@ -6,6 +6,7 @@ import {musicians, searchMusicians, getAllUploads} from "../services/apiCall"; /
 
 function Dashboard () {
     const [currentReelIndex, setCurrentReelIndex] = useState(null);
+    const [uploads, setUploads] = useState([]);
     const [reels, setReels] = useState([]); // Dynamic reels data
     const [searchQuery, setSearchQuery] = useState(""); // Search query state
     const audioRefs = useRef([]); // Refs to all audio elements
@@ -26,12 +27,12 @@ function Dashboard () {
   const fetchUploads = async () => {
     try {
         const response = await getAllUploads(); // Fetch the uploads
-        const newReels = response.data.map(upload => ({
+        const newReels = response.uploads.map(upload => ({
             title: upload.title,
             audioUrl: upload.audioUrl,
             imageUrl: upload.imageUrl,
         }));
-        setReels((prevReels) => [...prevReels, ...newReels]); // Add new uploads to the reels
+        setUploads(newReels);
     } catch (error) {
         console.error("Error fetching uploads:", error);
     }
