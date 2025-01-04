@@ -8,17 +8,21 @@ import {musicians, searchMusicians, getAllUploads} from "../services/apiCall"; /
 const ReelMockData = [
   
   {
-      audioUrl: 'https://cdn3.justnaija.me/uploads/music/2020/08/Burna-Boy-Monsters-You-Made-ft-Chris-Martin-(JustNaija.com).mp3',
-      title: 'Monster you made by Burnaboy',
-      imageUrl: '/Images/music1.png',
-      type: 'audio/mpeg',
-  },
-  {
-      audioUrl: 'https://cdn.val9ja.com/wp-content/uploads/2024/04/Burna_Boy_Ft_Prince_Swanny_-_Tested_Approved_Trusted.mp3',
-      title: 'Tested, Approved & Trusted (feat. Prince Swanny)',
-      imageUrl: '/Images/music1.png',
-      type: 'audio/mpeg',
-  },
+    audioUrl: 'https://cdn3.justnaija.me/uploads/music/2020/08/Burna-Boy-Monsters-You-Made-ft-Chris-Martin-(JustNaija.com).mp3',
+    title: 'Monster you made by Burnaboy',
+    imageUrl: '/Images/music1.png',
+    type: 'audio/mpeg',
+    likeicon: '/Images/like.png', //add this icon - surround it button element
+    dislikeicon: '/Images/dislike.png'//add this icon - surround it button element
+},
+{
+    audioUrl: 'https://cdn.val9ja.com/wp-content/uploads/2024/04/Burna_Boy_Ft_Prince_Swanny_-_Tested_Approved_Trusted.mp3',
+    title: 'Tested, Approved & Trusted (feat. Prince Swanny)',
+    imageUrl: '/Images/music1.png',
+    type: 'audio/mpeg',
+    likeicon: '/Images/like.png', //add this icon - surround it button element
+    dislikeicon: '/Images/dislike.png' //add this icon - surround it button element
+},
   
 ];
 
