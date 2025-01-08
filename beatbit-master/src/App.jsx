@@ -73,7 +73,7 @@ function App() {
                   <Route path="/home" element={<LandingPage />} />
                   <Route path="/connect" element={<ConnectWallet />} />
                   <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/uploads" element={<Uploads />} />
+                  <Route path="/upload-page" element={<Uploads />} />
                   <Route path="/pools" element={<Pools />} />
                   <Route path="/subchart" element={<SubChart />} />
                   <Route path="/bounty" element={<TopChart />} />

@@ -6,11 +6,11 @@ const reelSchema = new mongoose.Schema({
     audioUrl: { type: String, required: true },
     imageUrl: { type: String, required: true },
     type: { type: String, default: 'audio/mpeg' },
-    likeicon: {type: String, required: true},
-    dislikeicon: {type: String, required: true},
+    likeIcon: { type: String, default: '/uploads/icon/like.png' },
+    dislikeIcon: { type: String, default: '/uploads/icon/dislike.png' },
     uploadedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    watchedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    listenBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 
 }, { timestamps: true });
 

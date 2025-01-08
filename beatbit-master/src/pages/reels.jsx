@@ -2,64 +2,29 @@ import ReelsNavBar from "./reelsNavbar"
 import Sidemenu from "../components/sidemenu"
 import React, { useState, useEffect, useRef } from 'react';
 import debounce from "lodash.debounce"
-import {musicians, searchMusicians, getAllUploads} from "../services/apiCall"; // Import Axios for API calls
+import {getAllReelMusicians, searchMusicians} from "../services/apiCall"; // Import Axios for API calls
 
 
-const ReelMockData = [
-  
-  {
-    audioUrl: 'https://cdn3.justnaija.me/uploads/music/2020/08/Burna-Boy-Monsters-You-Made-ft-Chris-Martin-(JustNaija.com).mp3',
-    title: 'Monster you made by Burnaboy - mock data',
-    imageUrl: '/Images/music1.png',
-    type: 'audio/mpeg',
-    likeicon: '/Images/like.png', //add this icon - surround it button element
-    dislikeicon: '/Images/dislike.png'//add this icon - surround it button element
-},
-{
-    audioUrl: 'https://cdn.val9ja.com/wp-content/uploads/2024/04/Burna_Boy_Ft_Prince_Swanny_-_Tested_Approved_Trusted.mp3',
-    title: 'Tested, Approved & Trusted (feat. Prince Swanny) - mock data',
-    imageUrl: '/Images/music1.png',
-    type: 'audio/mpeg',
-    likeicon: '/Images/like.png', //add this icon - surround it button element
-    dislikeicon: '/Images/dislike.png' //add this icon - surround it button element
-},
-  
-];
 
 
 function Dashboard () {
     const [currentReelIndex, setCurrentReelIndex] = useState(null);
-    const [uploads, setUploads] = useState([]);
     const [reels, setReels] = useState([]); // Dynamic reels data
     const [searchQuery, setSearchQuery] = useState(""); // Search query state
     const audioRefs = useRef([]); // Refs to all audio elements
 
-
+    
     // Fetch reels from the backend
-  const fetchReels = async () => {
-    try {
-      const response = await musicians();
-      setReels(Array.isArray(response.data) ? response.data : []); // Ensure reels is an array
-      console.log(response.data);
-    } catch (error) {
-      console.error("Error fetching reels:", error);
-    }
-  };
-
-  // Fetch new uploads and update reels state
-  const fetchUploads = async () => {
-    try {
-        const response = await getAllUploads(); // Fetch the uploads
-        const newReels = response.uploads?.map(upload => ({
-            title: upload.title,
-            audioUrl: upload.audioUrl,
-            imageUrl: upload.imageUrl,
-        }));
-        setUploads(newReels);
-    } catch (error) {
-        console.error("Error fetching uploads:", error);
-    }
-};
+    const fetchReels = async () => {
+      try {
+        const response = await getAllReelMusicians();
+        setReels(Array.isArray(response.data) ? response.data : []);
+      } catch (error) {
+        console.error("Error fetching reels:", error);
+      }
+    };
+  
+ 
   
    // Fetch reels based on search query
   const handleSearch = debounce(async () => {
@@ -80,10 +45,7 @@ function Dashboard () {
       fetchReels();
     }, []);
 
-    useEffect(() => {
-      fetchUploads(); // Fetch new uploads whenever the component mounts or after an upload
-  }, []);
-
+  
 
   // Function to handle when a reel becomes visible
     const handleReelVisibility = (index) => {
@@ -141,76 +103,53 @@ function Dashboard () {
     }, []);
     return (
         <>
-            <ReelsNavBar/>
-            <Sidemenu/>
-            <div className="flex justify-center items-center pt-[100px]">
-                <input className="border-2 py-[5px] px-[30px] w-[30%] outline-none rounded-md bg-transparent text-white text-[18px] text-center sm:w-[90%] md:w-[90%] lg:w-[30%]" 
-                type="text" 
-                placeholder="Search" 
-                value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onKeyPress={(e) => e.key === "Enter" && handleSearch()} 
-                    />
-            </div>
-            <section>
-                <div className="reels-container">
-                    {reels.map((reel, index) => (
-                    <div
-                        className="reel flex justify-center items-center flex-col pt-[80px]"
-                        key={index}
-                        data-index={index}
-                    >
-                        <img
-                        className="w-[22%] cursor-pointer rounded-2xl sm:w-[50%] md:w-[60%] lg:w-[22%]"
-                        src={reel.imageUrl}
-                        alt={`Cover for ${reel.title}`}
-                        onClick={() =>
-                          audioRefs.current[index].paused ? playAudio(index) : pauseAudio(index)
-                        }
-                        />
-                        <h2 className="mt-[30px] text-white text-[20px] sm:text-[16px] md:text-[17px] lg:text-[20px]">{reel.title}</h2>
-                        <audio
-                          ref={(el) => (audioRefs.current[index] = el)}
-                          src={reel.audioUrl}
-                          autoPlay={false}
-                          controls={false}
-                        />
-                        <div className="absolute left-[65%] w-[5%]">
-                          <img src={reel.likeicon} alt="like-icon" />
-                          <img src={reel.dislikeicon} alt="dislike-icon" />
-                        </div>
-                    </div>
-                    ))}
+        <ReelsNavBar />
+        <Sidemenu />
+        <div className="flex justify-center items-center pt-[100px]">
+          <input className="border-2 py-[5px] px-[30px] w-[30%] outline-none rounded-md bg-transparent text-white text-[18px] text-center sm:w-[90%] md:w-[90%] lg:w-[30%]"
+            type="text"
+            placeholder="Search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+          />
+        </div>
+        <section>
+          <div className="reels-container">
+            {reels.map((reel, index) => (
+              <div
+                className="reel flex justify-center items-center flex-col pt-[80px]"
+                key={index}
+                data-index={index}
+              >
+                <img
+                  className="w-[22%] cursor-pointer rounded-2xl sm:w-[50%] md:w-[60%] lg:w-[22%]"
+                  src={reel?.imageUrl}
+                  alt={reel?.title}
+                  onClick={() =>
+                    audioRefs.current[index].paused ? playAudio(index) : pauseAudio(index)
+                  }
+                />
+                <div className="flex space-x-4 mt-4">
+                  <button className="flex items-center justify-center bg-green-500 p-2 rounded-full hover:bg-green-600">
+                    <img src={reel?.likeIcon} alt="like-icon" className="w-6 h-6" />
+                  </button>
+                  <button className="flex items-center justify-center bg-red-500 p-2 rounded-full hover:bg-red-600">
+                    <img src={reel?.dislikeIcon} alt="dislike-icon" className="w-6 h-6" />
+                  </button>
                 </div>
-            </section>
-                    {/*From Mock data - add engagement buttons here*/}
-            <section>
-                <div className="reels-container">
-                    {ReelMockData.map((reelMock, index) => (
-                    <div
-                        className="reel flex justify-center items-center flex-col pt-[80px]"
-                        key={index}
-                        data-index={index}
-                    >
-                        <img
-                        className="w-[22%] cursor-pointer rounded-2xl sm:w-[50%] md:w-[60%] lg:w-[22%]"
-                        src={reelMock.imageUrl}
-                        alt={`Cover for ${reelMock.title}`}
-                        onClick={() =>
-                          audioRefs.current[index].paused ? playAudio(index) : pauseAudio(index)
-                        }
-                        />
-                        <h2 className="mt-[30px] text-white text-[20px] sm:text-[16px] md:text-[17px] lg:text-[20px]">{reelMock.title}</h2>
-                        <audio
-                          ref={(el) => (audioRefs.current[index] = el)}
-                          src={reelMock.audioUrl}
-                          autoPlay={false}
-                          controls={false}
-                        />
-                    </div>
-                    ))}
-                </div>
-            </section>
+                <h2 className="mt-[30px] text-white text-[20px] sm:text-[16px] md:text-[17px] lg:text-[20px]">{reel?.title}</h2>
+                <audio
+                  ref={(el) => (audioRefs.current[index] = el)}
+                  src={reel?.audioUrl}
+                  controls={false}
+                  autoPlay={false}
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+                
         </>
     )
 }

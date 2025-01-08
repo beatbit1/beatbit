@@ -37,6 +37,18 @@ function Uploads () {
         if (!audioFile || !audioImage) {
             alert("Please select both audio and image files to upload!");
             return;
+        };
+
+        if (!category) {
+            alert("Please select a valid category!");
+            return;
+        }
+
+        // Make sure the category exists in the categories state before submitting
+        const selectedCategory = categories.find(c => c.name === category);
+        if (!selectedCategory) {
+            alert("Invalid category selected!");
+            return;
         }
     
         const formData = new FormData();
@@ -44,7 +56,7 @@ function Uploads () {
         formData.append("description", audioDescription);
         formData.append("image", audioImage);
         formData.append("audio", audioFile);
-        formData.append("category", category);
+        formData.append("category", category);  // Ensure category name is sent here
         formData.append("shortReels", shortReels);
     
         try {
@@ -64,15 +76,6 @@ function Uploads () {
         }
     };
 
-    // const handleSearch = async (e) => {
-    //     setSearchInput(e.target.value);
-    //     try {
-    //         const response = await searchUpload({ query: e.target.value });
-    //         setFilteredUploads(response.data);
-    //     } catch (error) {
-    //         console.error("Search failed", error);
-    //     }
-    // };
     
     return (
         <>
@@ -141,7 +144,7 @@ function Uploads () {
                          >
                             <option value="" className="text-white">Select Category</option>
                             {categories.map((cat) => (
-                                <option key={cat._id} value={cat._id}>
+                                <option key={cat._id} value={cat.name}>
                                     {cat.name}
                                 </option>
                             ))}

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Dynamically determine the base URL
-const API_URL = _VITE_BACKEND_URL;
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 // Base configuration for axios
 const API = axios.create({
@@ -10,31 +10,31 @@ const API = axios.create({
 });
 
 //Reels API
-export const musicians = () => API.get("/musicians");
-export const addMusician = (data) => API.post("/add", data);
+export const getAllReelMusicians = () => API.get("/musicians");
+export const addMusician = (data) => API.post("/musicians/add", data);
 export const searchMusicians = (query) => API.get(`/musicians/search`, { params: { query } });
 export const getReelByTitle = (title) => API.get(`/musicians/${title}`);
 
 //upload API call
-export const uploadAudio = (formData) => API.post('/upload', formData, {
+export const uploadAudio = (formData) => API.post('/uploadFile', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
 });
-export const getAllUploads = () => API.get('/all');
-export const getCategories = () => API.get("/categories");
-export const searchUpload = () => API.get("/search");
+export const getAllUploads = () => API.get('/uploadFile/all');
+export const getCategories = () => API.get("/uploadFile/categories");
+export const searchUpload = () => API.get("/uploadFile/search");
 
 //Charts API call
 
 export const getChartData = (query) => API.get('/charts', { params: { query } });
 
 //Connect Wallet API call
-export const connectWallet = (data) => API.post("/connect-wallet", data);
-export const getWalletAddress = (walletAddress) => API.get(`/user/${walletAddress}`);
+export const connectWallet = (data) => API.post("/users/connect-wallet", data);
+export const getWalletAddress = (walletAddress) => API.get(`/users/${walletAddress}`);
 
 //Reward API call
-export const reward = (data) => API.post('/rewards', data);
+export const reward = (data) => API.post('/users/rewards', data);
 
 //Staking API
-export const getTokenDetails = (walletAddress) => API.get(`/tokens`, { params: { walletAddress } });
-export const stakeTokens = (walletAddress, amount) => API.post(`/stake`, { walletAddress, amount });
+export const getTokenDetails = (walletAddress) => API.get(`/users/tokens`, { params: { walletAddress } });
+export const stakeTokens = (walletAddress, amount) => API.post(`/users/stake`, { walletAddress, amount });
 

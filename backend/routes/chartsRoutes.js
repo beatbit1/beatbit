@@ -5,7 +5,7 @@ const { getChartData } = require('../controller/chartsController');
 
 const router = express.Router();
 
-router.get('/charts', getChartData);
+router.get('/', getChartData);
 
 
 module.exports = router;

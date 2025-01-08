@@ -203,7 +203,7 @@ if (loading) {
                             {/*Daily Reward section - from User(Model)*/}
                             <div className="text-white bg-[#D9D9D9] mr-[20px] ml-[80px] rounded-xl flex justify-center items-center flex-col text-[19px] mt-[20px] py-[10px] px-[10px] w-[60%]  sm:w-full md:w-full lg:w-[60%] sm:mr-[5px] md:mr-[5px] lg:mr-[5px] md sm:ml-[5px] md:ml-[5px] lg:ml-[80px]">
                                 <p>Daily reward</p>
-                                <p>{userReward?.dailyReward || "0"} BRD</p>
+                                <p>{userReward?.dailyReward || "0"} BTD</p>
                                 <p>${chartData[0]?.marketCaps || "0"} </p>
                             </div>
                             {/* Trending section - from MusicData(Model)*/}
@@ -235,7 +235,7 @@ if (loading) {
                         <h2>Artist: {chartData[0]?.artist || "N/A"}</h2>
 
                         <h2>Category: {chartData?.category}</h2>
-                        <h2>Price: {chartData[0]?.price || "0"} BRB<span className="text-[#02DF18]">+4</span></h2>
+                        <h2>Price: {chartData[0]?.price || "0"} BTB<span className="text-[#02DF18]">+4</span></h2>
                     </div>
                     {/*Listeners, Market caps section*/}
                     <div className="flex justify-left items-center mt-[20px] text-[19px] text-white sm:mb-[10px] md:mb-[10px]">
@@ -281,7 +281,7 @@ if (loading) {
                             />
                             <p>{song?.title}</p>
                             {/*The price, trending, listeners, marketCaps from MusicData(Model)*/}
-                            <p>{song.chartData?.price || "0.00"} BRB
+                            <p>{song.chartData?.price || "0.00"} BTB
                                 <span className={song.chartData?.trending >= 0 ? "text-[#02DF18]" : "text-[#DE0808]"}>
                                     {song.chartData?.trending >= 0 ? `+${song.chartData?.trending}` : song.chartData?.trendingPercentage}%
                                 </span>
