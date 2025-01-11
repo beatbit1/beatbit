@@ -5,8 +5,6 @@ const uploadSchema = new mongoose.Schema({
     description: { type: String, required: true },
     imageUrl: { type: String, required: true },
     audioUrl: { type: String, required: true },
-    likeIcon: {type: String, required: true},
-    dislikeIcon: {type: String, required: true},
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true },
     shortReels: { type: Boolean, default: false },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },

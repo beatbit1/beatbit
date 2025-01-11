@@ -1,6 +1,5 @@
 const UploadFile = require("../model/uploadModel");
 const Category = require("../model/CategoryModel");
-const Reel = require("../model/Reels");
 const path = require("path");
 const fs = require("fs");
 
@@ -20,11 +19,9 @@ exports.uploadAudio = async (req, res) => {
         const uploadDir = path.join(__dirname, '../uploads');
         const imageDir = path.join(uploadDir, 'images');
         const audioDir = path.join(uploadDir, 'audio');
-        const iconDir = path.join(uploadDir, 'icon');
-        
 
         // Create directories if they don't exist
-        [imageDir, audioDir, iconDir].forEach((dir) => {
+        [imageDir, audioDir].forEach((dir) => {
             if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
         });
 
@@ -32,50 +29,27 @@ exports.uploadAudio = async (req, res) => {
         const imagePath = path.join(imageDir, imageFile.name);
         const audioPath = path.join(audioDir, audioFile.name);
 
-        // // Move files to respective directories
+        // Move files to respective directories
         await imageFile.mv(imagePath);
         await audioFile.mv(audioPath);
 
-
-
-        // Validate category by name
+        // Validate category
         const categoryExists = await Category.findOne({ name: category });
         if (!categoryExists) {
             return res.status(400).json({ message: 'Invalid category selected.' });
         }
 
-        const backendUrl = process.env.BACKEND_URL || `${req.protocol}://${req.get("host")}`;
-        const imageUrl = `${backendUrl}/uploads/images/${imageFile.name}`;
-        const audioUrl = `${backendUrl}/uploads/audio/${audioFile.name}`;
-
-
         // Save metadata to database
         const newUpload = new UploadFile({
             title,
             description,
-            imageUrl, 
-            audioUrl, 
+            imageUrl: `/uploads/images/${imageFile.name}`,
+            audioUrl: `/uploads/audio/${audioFile.name}`,
             category: categoryExists._id, 
             shortReels,
-            likeIcon: `${backendUrl}/uploads/icon/like.png`,
-            dislikeIcon: `${backendUrl}/uploads/icon/dislike.png`,
-
         });
 
         await newUpload.save();
-
-        // Sync with Reel model
-        const newReel = new Reel({
-            title,
-            audioUrl, 
-            imageUrl,
-            likeIcon: newUpload.likeIcon,
-            dislikeIcon: newUpload.dislikeIcon,
-            uploadedBy: newUpload.user,
-        });
-
-        await newReel.save();
-        
         res.status(201).json({ message: 'Upload successful', audio: newUpload });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });

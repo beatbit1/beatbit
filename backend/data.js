@@ -10,32 +10,24 @@ const reels = [
         imageUrl: '/Images/music1.png',
         icon: '/Images/play.png', 
         type: 'audio/mpeg',
-        likeIcon: '/Images/like.png',
-        dislikeIcon: '/Images/dislike.png'
     },
     {
         audioUrl: 'https://xclusivepop.work/wp-content/uploads/2022/11/Burna_Boy_-_Alone.mp3',
         title: 'Alone by Burnaboy',
         imageUrl: '/Images/music2.png',
         type: 'audio/mpeg',
-        likeIcon: '/Images/like.png',
-        dislikeIcon: '/Images/dislike.png'
     },
     {
         audioUrl: 'https://cdn3.justnaija.me/uploads/music/2020/08/Burna-Boy-Monsters-You-Made-ft-Chris-Martin-(JustNaija.com).mp3',
         title: 'Monster you made by Burnaboy',
         imageUrl: '/Images/music1.png',
         type: 'audio/mpeg',
-        likeIcon: '/Images/like.png',
-        dislikeIcon: '/Images/dislike.png'
     },
     {
         audioUrl: 'https://cdn.val9ja.com/wp-content/uploads/2024/04/Burna_Boy_Ft_Prince_Swanny_-_Tested_Approved_Trusted.mp3',
         title: 'Tested, Approved & Trusted (feat. Prince Swanny)',
         imageUrl: '/Images/music1.png',
         type: 'audio/mpeg',
-        likeIcon: '/Images/like.png',
-        dislikeIcon: '/Images/dislike.png'
     },
     
 ];
