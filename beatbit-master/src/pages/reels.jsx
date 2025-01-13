@@ -2,7 +2,7 @@ import ReelsNavBar from "./reelsNavbar"
 import Sidemenu from "../components/sidemenu"
 import React, { useState, useEffect, useRef } from 'react';
 import debounce from "lodash.debounce"
-import {getAllReelMusicians, searchMusicians} from "../services/apiCall"; // Import Axios for API calls
+import {searchMusicians} from "../services/apiCall"; // Import Axios for API calls
 
 
 
