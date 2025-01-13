@@ -1,4 +1,4 @@
-import ReelsNavBar from "./reelsNavbar"
+import ReelsNavBar from "./reelsNavbar";
 import Sidemenu from "../components/sidemenu"
 import React, { useState, useEffect, useRef } from 'react';
 import debounce from "lodash.debounce"
