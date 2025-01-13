@@ -1,5 +1,6 @@
 {
   "name": "beatbit-master",
+  "private": true,
   "version": "1.0.0",
   "description": "Video reels",
   "main": "postcss.config.js",
@@ -674,6 +675,10 @@
   },
   "devDependencies": {},
   "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
