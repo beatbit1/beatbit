@@ -31,7 +31,7 @@ function ReelsNavBar () {
                         <button onClick={navigate}><w3m-button /></button>
                     </ul>
                     <div className={!nav ? 'fixed left-[-100%]' : 'fixed left-0 top-0 w-[40%] text-white mt-[76px] h-full bg-[#232b2b] shadow-md ease-in-out duration-500 sm:pt-[30px] sm:w-[80%] md:w-[40%] lg:hidden'}>
-                        <ul className="uppercase space-y-[10px] text-[19px]">
+                        <ul className="uppercase space-y-[10px] text-[18px]">
                             <li className="hover:bg-gray-800 hover:py-[10px] py-[10px] pl-[20px] hover:w-[90%] hover:pl-[20px]" onClick={showNav}><a href="/dashboard">Reels</a></li>
                             <li className="hover:bg-gray-800 hover:py-[10px] py-[10px] pl-[20px] hover:w-[90%] hover:pl-[20px]" onClick={showNav}><a href="/upload-page">Upload</a></li>
                             <li className="hover:bg-gray-800 hover:py-[10px] py-[10px] pl-[20px] hover:w-[90%] hover:pl-[20px]"><a href="/subchart">Chart</a></li>
