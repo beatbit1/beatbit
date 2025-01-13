@@ -40,7 +40,7 @@ function ReelsNavBar () {
                             <li className="hover:bg-gray-800 hover:py-[10px] py-[10px] pl-[20px] hover:w-[90%] hover:pl-[20px]" onClick={showNav}><a href="/ai">Ai</a></li>
                         </ul>
                         <div className="p-[10px] ml-0 w-[40%] mr-4 rounded-md text-[13px] sm:w-[90%] md:w-[90%] lg:w-[40%]" onClick={showNav}>
-                            <button onClick={navigate}><w3m-button /></button>
+                            <button onClick={navigate}><w3m-button/></button>
                         </div>
                     </div>
                    
