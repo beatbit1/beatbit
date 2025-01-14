@@ -7,6 +7,7 @@ import {getAllReelUpload, searchReels} from "../services/apiCall"; // Import Axi
 
 
 
+
 function Dashboard () {
     const [currentReelIndex, setCurrentReelIndex] = useState(null);
     const [reels, setReels] = useState([]); // Dynamic reels data
@@ -106,7 +107,7 @@ function Dashboard () {
         <ReelsNavBar />
         <Sidemenu />
         <div className="flex justify-center items-center pt-[100px]">
-          <input className="border-2 py-[5px] px-[30px] w-[30%] outline-none rounded-md bg-transparent text-white text-[18px] text-center sm:w-[90%] md:w-[90%] lg:w-[30%]"
+          <input className="border-2 py-[5px] px-[25  px] w-[30%] outline-none rounded-md bg-transparent text-white text-[18px] text-center sm:w-[90%] md:w-[90%] lg:w-[30%]"
             type="text"
             placeholder="Search"
             value={searchQuery}

@@ -1,6 +1,5 @@
 const UploadFile = require("../model/uploadModel");
 const Category = require("../model/CategoryModel");
-const Reel = require("../model/Reels");
 const path = require("path");
 const fs = require("fs");
 const { v4: uuidv4 } = require("uuid");
@@ -40,7 +39,6 @@ exports.uploadAudio = async (req, res) => {
         const imageFileName = `${uuidv4()}_${imageFile.name}`;
         const audioFileName = `${uuidv4()}_${audioFile.name}`;
 
-
         // Save file paths
         const imagePath = path.join(imageDir, imageFileName);
         const audioPath = path.join(audioDir, audioFileName);
@@ -48,22 +46,15 @@ exports.uploadAudio = async (req, res) => {
         // const imagePath = path.join(imageDir, imageFile.name);
         // const audioPath = path.join(audioDir, audioFile.name);
 
-        // // Move files to respective directories
+        // Move files to respective directories
         await imageFile.mv(imagePath);
         await audioFile.mv(audioPath);
 
-
-
-        // Validate category by name
+        // Validate category
         const categoryExists = await Category.findOne({ name: category });
         if (!categoryExists) {
             return res.status(400).json({ message: 'Invalid category selected.' });
         };
-
-
-        const backendUrl = process.env.BACKEND_URL || `${req.protocol}://${req.get("host")}`;
-        const imageUrl = `${backendUrl}/uploads/images/${imageFile.name}`;
-        const audioUrl = `${backendUrl}/uploads/audio/${audioFile.name}`;
 
 
         // Save metadata to database

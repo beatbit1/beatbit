@@ -1,13 +1,14 @@
 import axios from 'axios';
 
 // Dynamically determine the base URL
-const API_URL = import.meta.env.VITE_BACKEND_URL;
+const API_URL = _VITE_BACKEND_URL;
 
 // Base configuration for axios
 const API = axios.create({
     baseURL: API_URL, 
     withCredentials: true, // For sending cookies with requests
 });
+
 
 
 
@@ -26,13 +27,13 @@ export const getReelByTitle = (title) => API.get(`/upload-file/${title}`);
 export const getChartData = (query) => API.get('/charts', { params: { query } });
 
 //Connect Wallet API call
-export const connectWallet = (data) => API.post("/users/connect-wallet", data);
-export const getWalletAddress = (walletAddress) => API.get(`/users/${walletAddress}`);
+export const connectWallet = (data) => API.post("/connect-wallet", data);
+export const getWalletAddress = (walletAddress) => API.get(`/user/${walletAddress}`);
 
 //Reward API call
-export const reward = (data) => API.post('/users/rewards', data);
+export const reward = (data) => API.post('/rewards', data);
 
 //Staking API
-export const getTokenDetails = (walletAddress) => API.get(`/users/tokens`, { params: { walletAddress } });
-export const stakeTokens = (walletAddress, amount) => API.post(`/users/stake`, { walletAddress, amount });
+export const getTokenDetails = (walletAddress) => API.get(`/tokens`, { params: { walletAddress } });
+export const stakeTokens = (walletAddress, amount) => API.post(`/stake`, { walletAddress, amount });
 
