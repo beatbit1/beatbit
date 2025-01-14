@@ -10,7 +10,7 @@ const reelSchema = new mongoose.Schema({
     dislikeIcon: { type: String, default: '/uploads/icon/dislike.png' },
     uploadedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    listenBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    listenedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 
 }, { timestamps: true });
 

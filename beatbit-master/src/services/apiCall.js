@@ -9,19 +9,17 @@ const API = axios.create({
     withCredentials: true, // For sending cookies with requests
 });
 
-//Reels API
-export const getAllReelMusicians = () => API.get("/musicians");
-export const addMusician = (data) => API.post("/musicians/add", data);
-export const searchMusicians = (query) => API.get(`/musicians/search`, { params: { query } });
-export const getReelByTitle = (title) => API.get(`/musicians/${title}`);
+
 
 //upload API call
-export const uploadAudio = (formData) => API.post('/uploadFile', formData, {
+export const uploadAudio = (formData) => API.post('/upload-file', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
 });
-export const getAllUploads = () => API.get('/uploadFile/all');
-export const getCategories = () => API.get("/uploadFile/categories");
-export const searchUpload = () => API.get("/uploadFile/search");
+export const getAllReelUpload = () => API.get('/upload-file/all-reels');
+export const getCategories = () => API.get("/upload-file/categories");
+export const searchReels = (query) => API.get(`/upload-file/search`, { params: { query } });
+export const getReelByTitle = (title) => API.get(`/upload-file/${title}`);
+
 
 //Charts API call
 

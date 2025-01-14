@@ -6,7 +6,7 @@ import {getChartData,
     getReelByTitle, 
     getTokenDetails, 
     stakeTokens,
-    getAllUploads,
+    getAllReelUpload,
     getWalletAddress
     } from "../services/apiCall";
 
@@ -70,7 +70,7 @@ function SubChart () {
     useEffect(() => {
         const fetchUploads = async () => {
             try {
-                const response = await getAllUploads();
+                const response = await getAllReelUpload();
                 setUploads(response.data);
             } catch (error) {
                 console.error('Error fetching uploads:', error);

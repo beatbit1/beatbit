@@ -1,8 +1,8 @@
-import ReelsNavBar from "./reelsNavbar"
-import Sidemenu from "../components/sidemenu"
+import ReelsNavBar from "./reelsNavbar";
+import Sidemenu from "../components/sidemenu";
 import React, { useState, useEffect, useRef } from 'react';
 import debounce from "lodash.debounce"
-import {getAllReelMusicians, searchMusicians} from "../services/apiCall"; // Import Axios for API calls
+import {getAllReelUpload, searchReels} from "../services/apiCall"; // Import Axios for API calls
 
 
 
@@ -17,7 +17,7 @@ function Dashboard () {
     // Fetch reels from the backend
     const fetchReels = async () => {
       try {
-        const response = await getAllReelMusicians();
+        const response = await getAllReelUpload();
         setReels(Array.isArray(response.data) ? response.data : []);
       } catch (error) {
         console.error("Error fetching reels:", error);
@@ -32,7 +32,7 @@ function Dashboard () {
       fetchReels();
     } else {
       try {
-        const response = await searchMusicians(searchQuery); // Search API call
+        const response = await searchReels(searchQuery); // Search API call
         setReels(Array.isArray(response.data) ? response.data : []); // Ensure reels is an array
       } catch (error) {
         console.error("Error searching reels:", error);

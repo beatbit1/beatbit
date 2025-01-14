@@ -3,6 +3,15 @@ const Category = require("../model/CategoryModel");
 const Reel = require("../model/Reels");
 const path = require("path");
 const fs = require("fs");
+const { v4: uuidv4 } = require("uuid");
+
+
+// Helper function to create directories if they don't exist
+const ensureDirectoriesExist = (dirs) => {
+    dirs.forEach((dir) => {
+        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    });
+};
 
 exports.uploadAudio = async (req, res) => {
     try {
@@ -20,17 +29,24 @@ exports.uploadAudio = async (req, res) => {
         const uploadDir = path.join(__dirname, '../uploads');
         const imageDir = path.join(uploadDir, 'images');
         const audioDir = path.join(uploadDir, 'audio');
-        const iconDir = path.join(uploadDir, 'icon');
+        
         
 
-        // Create directories if they don't exist
-        [imageDir, audioDir, iconDir].forEach((dir) => {
-            if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-        });
+         // Ensure directories exist
+         ensureDirectoriesExist([imageDir, audioDir]);
+
+
+          // Generate unique file names
+        const imageFileName = `${uuidv4()}_${imageFile.name}`;
+        const audioFileName = `${uuidv4()}_${audioFile.name}`;
+
 
         // Save file paths
-        const imagePath = path.join(imageDir, imageFile.name);
-        const audioPath = path.join(audioDir, audioFile.name);
+        const imagePath = path.join(imageDir, imageFileName);
+        const audioPath = path.join(audioDir, audioFileName);
+
+        // const imagePath = path.join(imageDir, imageFile.name);
+        // const audioPath = path.join(audioDir, audioFile.name);
 
         // // Move files to respective directories
         await imageFile.mv(imagePath);
@@ -42,7 +58,8 @@ exports.uploadAudio = async (req, res) => {
         const categoryExists = await Category.findOne({ name: category });
         if (!categoryExists) {
             return res.status(400).json({ message: 'Invalid category selected.' });
-        }
+        };
+
 
         const backendUrl = process.env.BACKEND_URL || `${req.protocol}://${req.get("host")}`;
         const imageUrl = `${backendUrl}/uploads/images/${imageFile.name}`;
@@ -53,13 +70,12 @@ exports.uploadAudio = async (req, res) => {
         const newUpload = new UploadFile({
             title,
             description,
-            imageUrl, 
-            audioUrl, 
+            fileName: imageFile.name,
+            fileType: imageFile.mimetype,
+            fileUrl: imageUrl,
             category: categoryExists._id, 
             shortReels,
-            likeIcon: `${backendUrl}/uploads/icon/like.png`,
-            dislikeIcon: `${backendUrl}/uploads/icon/dislike.png`,
-
+            user: req.user ? req.user._id : null,
         });
 
         await newUpload.save();
@@ -69,8 +85,8 @@ exports.uploadAudio = async (req, res) => {
             title,
             audioUrl, 
             imageUrl,
-            likeIcon: newUpload.likeIcon,
-            dislikeIcon: newUpload.dislikeIcon,
+            likeIcon: '/uploads/icon/like.png',
+            dislikeIcon: '/uploads/icon/dislike.png',
             uploadedBy: newUpload.user,
         });
 
@@ -83,12 +99,12 @@ exports.uploadAudio = async (req, res) => {
 };
 
 
-exports.getAllUploads = async(rq, res) => {
+exports.getAllReelUpload = async(rq, res) => {
     try{
-        const audios = await UploadFile.find();
-        res.status(200).json(audios)
+        const reelUpload = await Reel.find({});
+        res.status(200).json(reelUpload)
     }catch(error){
-        res.status(500).json({error: " Fail to upload audio"})
+        res.status(500).json({error: " Fail to get all reel uploads"})
     }
 };
 
@@ -99,7 +115,7 @@ exports.getUploadsByCategory = async (req, res) => {
         const { categoryName } = req.params;
 
         // Find the category by name
-        const category = await Category.findOne({ category: categoryName });
+        const category = await Category.findOne({ name: categoryName });
         if (!category) {
             return res.status(404).json({ message: 'Category not found' });
         }
@@ -113,19 +129,38 @@ exports.getUploadsByCategory = async (req, res) => {
 };
 
 
-exports.getCategories = async (req, res) => {
+// Fetch a single musician by title
+exports.getReelByTitle = async (req, res) => {
+    const { title } = req.params;
     try {
-        const categories = await Category.find();
-        res.status(200).json(categories);
+        const musician = await Reel.findOne({ title });
+        if (!musician) {
+            return res.status(404).json({ error: "Reel not found" });
+        }
+        res.status(200).json(musician);
     } catch (error) {
-        res.status(500).json({ error: "Failed to retrieve categories" });
+        res.status(500).json({ error: "Failed to fetch reel" });
     }
 };
 
-exports.searchUploads = async (req, res) => {
+exports.getCategories = async (req, res) => {
+    try {
+        const categories = await Category.find();
+        if (!categories.length) {
+            return res.status(404).json({ message: 'No categories found' });
+        }
+        res.status(200).json(categories);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to retrieve categories' });
+    }
+};
+
+
+//Search Reel
+exports.searchReels = async (req, res) => {
     try {
         const { query } = req.query;
-        const results = await UploadFile.find({
+        const results = await Reel.find({
             $or: [
                 { title: { $regex: query, $options: 'i' } },
                 { description: { $regex: query, $options: 'i' } },

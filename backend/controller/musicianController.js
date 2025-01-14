@@ -25,17 +25,7 @@ exports.getMusicianByTitle = async (req, res) => {
     }
 };
 
-// Add a new musician
-exports.addMusician = async (req, res) => {
-    const { title, src, image, type, icon, name } = req.body;
-    try {
-      const newReel = new Reel({ title, src, image, type, icon, name });
-      await newReel.save();
-      res.status(201).json(newReel);
-    } catch (error) {
-      res.status(500).json({ error: "Failed to add reel" });
-    }
-  };
+
 
 //Search Musician
 exports.searchMusicians = async (req, res) => {

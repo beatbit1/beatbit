@@ -20,6 +20,7 @@ function Uploads () {
                 const response = await getCategories();
                 if (Array.isArray(response.data)) {
                     setCategories(response.data); // Ensure the data is an array
+                    console.log(response.data);
                 } else {
                     setCategories([]); // Fallback to an empty array
                 }

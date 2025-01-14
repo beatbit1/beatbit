@@ -1,16 +1,18 @@
 const express = require("express");
 const { uploadAudio, 
-    getAllUploads, 
+    getAllReelUpload, 
     getCategories, 
-    searchUploads } = require("../controller/uploadController.js")
+    searchReels,
+    getReelByTitle } = require("../controller/uploadController.js")
 const router = express.Router();
 
 
 
 // Route for uploading audio and image
 router.post('/', uploadAudio);
-router.get('/all', getAllUploads); 
-router.get("/search", searchUploads)
+router.get('/all-reels', getAllReelUpload); 
+router.get("/search", searchReels)
+router.get("/:title", getReelByTitle )
 router.get('/categories', getCategories); // Route for fetching categories dynamically
 
 

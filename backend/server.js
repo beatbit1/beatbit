@@ -71,7 +71,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Route middlewares
 app.use("/api/v2/musicians", musicianRoutes);
-app.use("/api/v2/uploadFile", uploadRoutes);
+app.use("/api/v2/upload-file", uploadRoutes);
 app.use("/api/v2/users", userRoutes);
 app.use("/api/v2/charts", chartRoute);
 

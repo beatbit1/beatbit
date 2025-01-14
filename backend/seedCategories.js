@@ -5,7 +5,7 @@ const connectDB = require("./dbConnect/db");
 const Category = require("./model/CategoryModel");
 
 
-const categories = ["Pop", "Jazz", "Blues", "Rock", "Classical", "Hip-hop"];
+const categories = ["Pop", "Jazz", "Blues", "Rock", "Classical", "Hip-hop", "Gospel"];
 
 async function seedCategories() {
     try {
