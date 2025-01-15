@@ -13,7 +13,7 @@ import Footer from '../components/footer.jsx'
 function LandingPage () {
     useEffect(() => {
         // Access Telegram WebApp object
-    const tg = window.Telegram.WebApp;
+    const tg = window.Telegram?.WebApp;
 
     if (tg) {
       // Expand the Telegram Web App header

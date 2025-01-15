@@ -56,7 +56,7 @@ exports.updateRewards = async (req, res) => {
         const reward = calculateActionReward(action);
         user.rewards += reward;
 
-        if (action === "watch") user.watchedReels += 1;
+        if (action === "listen") user.watchedReels += 1;
         if (action === "like") user.likedReels += 1;
 
         await user.save();
