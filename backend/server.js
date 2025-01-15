@@ -11,7 +11,7 @@ const bot = require("./config/telegramBot");
 const path = require("path");
 
 // Validate required environment variables
-const requiredEnvVars = ["PORT", "BACKEND_URL", "FRONTEND_URL"];
+const requiredEnvVars = ["BACKEND_URL", "FRONTEND_URL"];
 requiredEnvVars.forEach((key) => {
   if (!process.env[key]) {
     console.error(`Missing required environment variable: ${key}`);
