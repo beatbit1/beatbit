@@ -7,7 +7,6 @@ import {getAllReelUpload, searchReels} from "../services/apiCall"; // Import Axi
 
 
 
-
 function Dashboard () {
     const [currentReelIndex, setCurrentReelIndex] = useState(null);
     const [reels, setReels] = useState([]); // Dynamic reels data
@@ -20,6 +19,7 @@ function Dashboard () {
       try {
         const response = await getAllReelUpload();
         setReels(Array.isArray(response.data) ? response.data : []);
+        console.log(response.data)
       } catch (error) {
         console.error("Error fetching reels:", error);
       }

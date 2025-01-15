@@ -1,5 +1,5 @@
 const UploadFile = require("../model/uploadModel");
-const Category = require("../model/CategoryModel");
+const Reel = require("../model/Reels");
 const path = require("path");
 const fs = require("fs");
 const { v4: uuidv4 } = require("uuid");
@@ -28,11 +28,12 @@ exports.uploadAudio = async (req, res) => {
         const uploadDir = path.join(__dirname, '../uploads');
         const imageDir = path.join(uploadDir, 'images');
         const audioDir = path.join(uploadDir, 'audio');
+        const iconDir = path.join(uploadDir, "icon");
         
         
 
          // Ensure directories exist
-         ensureDirectoriesExist([imageDir, audioDir]);
+         ensureDirectoriesExist([imageDir, audioDir, iconDir]);
 
 
           // Generate unique file names
@@ -50,11 +51,18 @@ exports.uploadAudio = async (req, res) => {
         await imageFile.mv(imagePath);
         await audioFile.mv(audioPath);
 
-        // Validate category
-        const categoryExists = await Category.findOne({ name: category });
-        if (!categoryExists) {
-            return res.status(400).json({ message: 'Invalid category selected.' });
-        };
+        // Validate category directly from enum values
+        const validCategories = UploadFile.schema.path("category").enumValues;
+        if (!validCategories.includes(category)) {
+            return res.status(400).json({ message: "Invalid category selected." });
+        }
+
+        // Dynamically set backend URL based on environment (localhost or production)
+        const backendUrl = process.env.BACKEND_URL || `${req.protocol}://${req.get("host")}`;
+        const imageUrl = `${backendUrl}/uploads/images/${imageFileName}`;
+        const audioUrl = `${backendUrl}/uploads/audio/${audioFileName}`;
+        const likeIconUrl = `${backendUrl}/uploads/icon/like.png`;
+        const dislikeIconUrl = `${backendUrl}/uploads/icon/dislike.png`;
 
 
         // Save metadata to database
@@ -64,7 +72,7 @@ exports.uploadAudio = async (req, res) => {
             fileName: imageFile.name,
             fileType: imageFile.mimetype,
             fileUrl: imageUrl,
-            category: categoryExists._id, 
+            category, 
             shortReels,
             user: req.user ? req.user._id : null,
         });
@@ -76,8 +84,8 @@ exports.uploadAudio = async (req, res) => {
             title,
             audioUrl, 
             imageUrl,
-            likeIcon: '/uploads/icon/like.png',
-            dislikeIcon: '/uploads/icon/dislike.png',
+            likeIcon: likeIconUrl,
+            dislikeIcon: dislikeIconUrl,
             uploadedBy: newUpload.user,
         });
 
@@ -89,7 +97,7 @@ exports.uploadAudio = async (req, res) => {
     }
 };
 
-
+//GET all reels upload in the frontend
 exports.getAllReelUpload = async(rq, res) => {
     try{
         const reelUpload = await Reel.find({});
@@ -100,24 +108,6 @@ exports.getAllReelUpload = async(rq, res) => {
 };
 
 
-// Controller to fetch uploads by category
-exports.getUploadsByCategory = async (req, res) => {
-    try {
-        const { categoryName } = req.params;
-
-        // Find the category by name
-        const category = await Category.findOne({ name: categoryName });
-        if (!category) {
-            return res.status(404).json({ message: 'Category not found' });
-        }
-
-        // Fetch uploads by category ID
-        const uploads = await UploadFile.find({ category: category._id }).populate('category', 'name');
-        res.status(200).json(uploads);
-    } catch (error) {
-        res.status(500).json({ error: "Failed to fetch uploads by category" });
-    }
-};
 
 
 // Fetch a single musician by title
@@ -136,13 +126,11 @@ exports.getReelByTitle = async (req, res) => {
 
 exports.getCategories = async (req, res) => {
     try {
-        const categories = await Category.find();
-        if (!categories.length) {
-            return res.status(404).json({ message: 'No categories found' });
-        }
+        // Extract categories directly from the schema
+        const categories = UploadFile.schema.path("category").enumValues;
         res.status(200).json(categories);
     } catch (error) {
-        res.status(500).json({ error: 'Failed to retrieve categories' });
+        res.status(500).json({ message: "Failed to retrieve categories", error: error.message });
     }
 };
 

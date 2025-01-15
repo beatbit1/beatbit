@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Dynamically determine the base URL
-const API_URL = _VITE_BACKEND_URL;
+const API_URL = VITE_BACKEND_URL;
 
 // Base configuration for axios
 const API = axios.create({

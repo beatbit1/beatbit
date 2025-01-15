@@ -13,7 +13,6 @@ import 'aos/dist/aos.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { createWeb3Modal } from '@web3modal/wagmi/react'
 import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
-import initializeTelegramWebApp from './utils/telegram.js';
 import { WagmiProvider } from 'wagmi'
 import { arbitrum, mainnet, polygon } from 'wagmi/chains'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -50,19 +49,9 @@ createWeb3Modal({
 AOS.init();
 
 function App() {
-  const [tg, setTg] = useState(null);
+  
 
-  // Initialize Telegram WebApp
-  useEffect(() => {
-    const telegramWebApp = initializeTelegramWebApp();
-    setTg(telegramWebApp);
-
-    // Example: Log the Telegram WebApp data
-    if (telegramWebApp) {
-      console.log("Telegram WebApp Initialized:", telegramWebApp.initDataUnsafe);
-    }
-  }, []);
-
+  
   return (
     <>
       <WagmiProvider config={config}>
