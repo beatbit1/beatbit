@@ -90,14 +90,21 @@ app.get("/", (req, res) => {
 
 
 
-  app.listen(PORT, () => {
-    console.log(`Server is running on ${BACKEND_URL}`);
-
-    if (BACKEND_URL.startsWith("https://")) {
-        bot.telegram.setWebhook(`${BACKEND_URL}/bot`)
-            .then(() => console.log("Webhook set successfully"))
-            .catch(err => console.error("Failed to set webhook:", err));
-    } else {
+  // Start the server with dynamic port handling for Vercel
+if (process.env.NODE_ENV === "production") {
+    module.exports = app;
+  } else {
+    app.listen(PORT, () => {
+      console.log(`Server is running on ${BACKEND_URL}`);
+  
+      if (BACKEND_URL.startsWith("https://")) {
+        bot.telegram
+          .setWebhook(`${BACKEND_URL}/bot`)
+          .then(() => console.log("Webhook set successfully"))
+          .catch((err) => console.error("Failed to set webhook:", err));
+      } else {
         console.warn("Webhook not set: BACKEND_URL must be HTTPS.");
-    }
-});
+      }
+    });
+  }
+  
