@@ -9,18 +9,11 @@ const API = axios.create({
     withCredentials: true, // For sending cookies with requests
 });
 
-<<<<<<< HEAD
 //Reels API
 export const musicians = () => API.get("/musicians");
 // export const getAllReelMusicians = () => API.get("/musicians");
 export const addMusician = (data) => API.post("/add", data);
 export const searchMusicians = (query) => API.get(`/musicians/search`, { params: { query } });
-export const getReelByTitle = (title) => API.get(`/musicians/${title}`);
-=======
-
-
->>>>>>> 4f4409d64a1ab65f942e55b93357727361c26cb8
-
 //upload API call
 export const uploadAudio = (formData) => API.post('/upload-file', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
