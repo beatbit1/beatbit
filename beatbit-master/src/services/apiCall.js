@@ -11,6 +11,7 @@ const API = axios.create({
 
 //Reels API
 export const musicians = () => API.get("/musicians");
+// export const getAllReelMusicians = () => API.get("/musicians");
 export const addMusician = (data) => API.post("/add", data);
 export const searchMusicians = (query) => API.get(`/musicians/search`, { params: { query } });
 export const getReelByTitle = (title) => API.get(`/musicians/${title}`);
