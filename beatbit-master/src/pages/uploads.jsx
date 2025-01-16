@@ -138,7 +138,7 @@ function Uploads () {
                 <div className="mt-[20px]">
                     <label className="text-white text-[22px]" htmlFor="">Category</label>
                     <div className="flex justify-left items-center">
-                        <select className="outline-none w-[20%] mr-[10px] mt-[20px] bg-transparent border-2 border-neutral-800 py-[9px] px-[10px] cursor-pointer text-[20px] sm:w-[30%] md:w-[30%] lg:w-[20%]" 
+                        <select className="outline-none w-[20%] mr-[10px] text-white mt-[20px] bg-transparent border-2 border-neutral-800 py-[9px] px-[10px] cursor-pointer text-[20px] sm:w-[30%] md:w-[30%] lg:w-[20%]" 
                          value={category}
                          onChange={(e)=>setCategory(e.target.value)}
                          required
