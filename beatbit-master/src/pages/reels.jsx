@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-import ReelsNavBar from "./reelsNavbar"
-import Sidemenu from "../components/sidemenu"
-=======
 import ReelsNavBar from "./reelsNavbar";
 import Sidemenu from "../components/sidemenu";
->>>>>>> 4f4409d64a1ab65f942e55b93357727361c26cb8
 import React, { useState, useEffect, useRef } from 'react';
 import debounce from "lodash.debounce"
 import {getAllReelUpload, searchReels} from "../services/apiCall"; // Import Axios for API calls
