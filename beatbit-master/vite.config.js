@@ -2,16 +2,34 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '_VITE');
+  // Load environment variables for the current mode
+  const env = loadEnv(mode, process.cwd(), '');
 
-  // Dynamically set the backend URL
+  // Extract backend URLs from the environment variables
   const backendUrl =
-    mode === 'production' ? env._VITE_BACKEND_URL_PROD : env._VITE_BACKEND_URL_DEV;
+    mode === 'production' ? env.VITE_BACKEND_URL_PROD : env.VITE_BACKEND_URL_DEV;
+
+  if (!backendUrl) {
+    throw new Error(`Backend URL not defined for mode: ${mode}`);
+  }
 
   return {
     plugins: [react()],
     define: {
-      '_VITE_BACKEND_URL': JSON.stringify(backendUrl), // Define dynamically
+      VITE_BACKEND_URL: JSON.stringify(backendUrl), // Define globally for app usage
+    },
+    server: {
+      proxy: {
+        '/api': {
+          target: backendUrl,
+          changeOrigin: true,
+        },
+        '/uploads': {
+          target: backendUrl,
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/uploads/, '/uploads'),
+        },
+      },
     },
   };
 });

@@ -8,7 +8,7 @@ const reelSchema = new mongoose.Schema({
     type: { type: String, default: 'audio/mpeg' },
     uploadedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    watchedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    listenedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 
 }, { timestamps: true });
 

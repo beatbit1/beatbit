@@ -1,4 +1,4 @@
-// import { useState } from 'react';
+import { useEffect } from 'react';
 import Navbar from '../components/nav.jsx';
 import Footer from '../components/footer.jsx'
 // import { Swiper, SwiperSlide } from 'swiper/react';
@@ -11,6 +11,29 @@ import Footer from '../components/footer.jsx'
 // import Video from '../assets/video.mp4';
 
 function LandingPage () {
+    useEffect(() => {
+        // Access Telegram WebApp object
+    const tg = window.Telegram?.WebApp;
+
+    if (tg) {
+      // Expand the Telegram Web App header
+      tg.expand();
+
+      // Configure the MainButton
+      tg.MainButton.setText("Open App");
+      tg.MainButton.show();
+
+      // Handle button click
+      tg.MainButton.onClick(() => {
+        window.location.href = "https://beatbit.netlify.app";
+      });
+
+      // Clean up event listener on component unmount
+      return () => {
+        tg.MainButton.offClick();
+      };
+    }
+  }, []);
     return (
         <>
             <Navbar/>

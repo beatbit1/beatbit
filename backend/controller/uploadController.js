@@ -1,7 +1,16 @@
 const UploadFile = require("../model/uploadModel");
-const Category = require("../model/CategoryModel");
+const Reel = require("../model/Reels");
 const path = require("path");
 const fs = require("fs");
+const { v4: uuidv4 } = require("uuid");
+
+
+// Helper function to create directories if they don't exist
+const ensureDirectoriesExist = (dirs) => {
+    dirs.forEach((dir) => {
+        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    });
+};
 
 exports.uploadAudio = async (req, res) => {
     try {
@@ -19,87 +28,118 @@ exports.uploadAudio = async (req, res) => {
         const uploadDir = path.join(__dirname, '../uploads');
         const imageDir = path.join(uploadDir, 'images');
         const audioDir = path.join(uploadDir, 'audio');
+        const iconDir = path.join(uploadDir, "icon");
+        
+        
 
-        // Create directories if they don't exist
-        [imageDir, audioDir].forEach((dir) => {
-            if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-        });
+         // Ensure directories exist
+         ensureDirectoriesExist([imageDir, audioDir, iconDir]);
+
+
+          // Generate unique file names
+        const imageFileName = `${uuidv4()}_${imageFile.name}`;
+        const audioFileName = `${uuidv4()}_${audioFile.name}`;
 
         // Save file paths
-        const imagePath = path.join(imageDir, imageFile.name);
-        const audioPath = path.join(audioDir, audioFile.name);
+        const imagePath = path.join(imageDir, imageFileName);
+        const audioPath = path.join(audioDir, audioFileName);
+
+        // const imagePath = path.join(imageDir, imageFile.name);
+        // const audioPath = path.join(audioDir, audioFile.name);
 
         // Move files to respective directories
         await imageFile.mv(imagePath);
         await audioFile.mv(audioPath);
 
-        // Validate category
-        const categoryExists = await Category.findOne({ name: category });
-        if (!categoryExists) {
-            return res.status(400).json({ message: 'Invalid category selected.' });
+        // Validate category directly from enum values
+        const validCategories = UploadFile.schema.path("category").enumValues;
+        if (!validCategories.includes(category)) {
+            return res.status(400).json({ message: "Invalid category selected." });
         }
+
+        // Dynamically set backend URL based on environment (localhost or production)
+        const backendUrl = process.env.BACKEND_URL || `${req.protocol}://${req.get("host")}`;
+        const imageUrl = `${backendUrl}/uploads/images/${imageFileName}`;
+        const audioUrl = `${backendUrl}/uploads/audio/${audioFileName}`;
+        const likeIconUrl = `${backendUrl}/uploads/icon/like.png`;
+        const dislikeIconUrl = `${backendUrl}/uploads/icon/dislike.png`;
+
 
         // Save metadata to database
         const newUpload = new UploadFile({
             title,
             description,
-            imageUrl: `/uploads/images/${imageFile.name}`,
-            audioUrl: `/uploads/audio/${audioFile.name}`,
-            category: categoryExists._id, 
+            fileName: imageFile.name,
+            fileType: imageFile.mimetype,
+            fileUrl: imageUrl,
+            category, 
             shortReels,
+            user: req.user ? req.user._id : null,
         });
 
         await newUpload.save();
+
+        // Sync with Reel model
+        const newReel = new Reel({
+            title,
+            audioUrl, 
+            imageUrl,
+            likeIcon: likeIconUrl,
+            dislikeIcon: dislikeIconUrl,
+            uploadedBy: newUpload.user,
+        });
+
+        await newReel.save();
+        
         res.status(201).json({ message: 'Upload successful', audio: newUpload });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
     }
 };
 
-
-exports.getAllUploads = async(rq, res) => {
+//GET all reels upload in the frontend
+exports.getAllReelUpload = async(rq, res) => {
     try{
-        const audios = await UploadFile.find();
-        res.status(200).json(audios)
+        const reelUpload = await Reel.find({});
+        res.status(200).json(reelUpload)
     }catch(error){
-        res.status(500).json({error: " Fail to upload audio"})
+        res.status(500).json({error: " Fail to get all reel uploads"})
     }
 };
 
 
-// Controller to fetch uploads by category
-exports.getUploadsByCategory = async (req, res) => {
+
+
+// Fetch a single musician by title
+exports.getReelByTitle = async (req, res) => {
+    const { title } = req.params;
     try {
-        const { categoryName } = req.params;
-
-        // Find the category by name
-        const category = await Category.findOne({ category: categoryName });
-        if (!category) {
-            return res.status(404).json({ message: 'Category not found' });
+        const musician = await Reel.findOne({ title });
+        if (!musician) {
+            return res.status(404).json({ error: "Reel not found" });
         }
-
-        // Fetch uploads by category ID
-        const uploads = await UploadFile.find({ category: category._id }).populate('category', 'name');
-        res.status(200).json(uploads);
+        res.status(200).json(musician);
     } catch (error) {
-        res.status(500).json({ error: "Failed to fetch uploads by category" });
+        res.status(500).json({ error: "Failed to fetch reel" });
     }
 };
-
 
 exports.getCategories = async (req, res) => {
     try {
-        const categories = await Category.find();
+        // Extract categories directly from the schema
+        const categories = UploadFile.schema.path("category").enumValues;
         res.status(200).json(categories);
     } catch (error) {
-        res.status(500).json({ error: "Failed to retrieve categories" });
+        res.status(500).json({ message: "Failed to retrieve categories", error: error.message });
     }
 };
 
-exports.searchUploads = async (req, res) => {
+
+//Search Reel
+exports.searchReels = async (req, res) => {
     try {
         const { query } = req.query;
-        const results = await UploadFile.find({
+        const results = await Reel.find({
             $or: [
                 { title: { $regex: query, $options: 'i' } },
                 { description: { $regex: query, $options: 'i' } },

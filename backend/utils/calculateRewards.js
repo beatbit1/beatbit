@@ -5,7 +5,7 @@ const calculateDailyReward = (activeListeners) => {
 
 const calculateActionReward = (action) => {
     const rewards = {
-        watch: 4, // 4 tokens for watching
+        listen: 4, // 4 tokens for listening
         like: 2, // 2 tokens for liking
     };
     return rewards[action] || 0;

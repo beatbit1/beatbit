@@ -20,6 +20,7 @@ function Uploads () {
                 const response = await getCategories();
                 if (Array.isArray(response.data)) {
                     setCategories(response.data); // Ensure the data is an array
+                    console.log(response.data);
                 } else {
                     setCategories([]); // Fallback to an empty array
                 }
@@ -45,7 +46,7 @@ function Uploads () {
         }
 
         // Make sure the category exists in the categories state before submitting
-        const selectedCategory = categories.find(c => c.name === category);
+        const selectedCategory = categories.find(c => c === category);
         if (!selectedCategory) {
             alert("Invalid category selected!");
             return;
@@ -142,9 +143,9 @@ function Uploads () {
                          onChange={(e)=>setCategory(e.target.value)}
                          required
                          >
-                            <option value="" className="text-white">Select Category</option>
+                            <option value="" className="text-gray-800">Select Category</option>
                             {categories.map((cat) => (
-                                <option key={cat._id} value={cat.name}>
+                                <option key={cat} value={cat} className="text-gray-800">
                                     {cat.name}
                                 </option>
                             ))}

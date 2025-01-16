@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Dynamically determine the base URL
-const API_URL = _VITE_BACKEND_URL;
+const API_URL = VITE_BACKEND_URL;
 
 // Base configuration for axios
 const API = axios.create({
@@ -9,20 +9,27 @@ const API = axios.create({
     withCredentials: true, // For sending cookies with requests
 });
 
+<<<<<<< HEAD
 //Reels API
 export const musicians = () => API.get("/musicians");
 // export const getAllReelMusicians = () => API.get("/musicians");
 export const addMusician = (data) => API.post("/add", data);
 export const searchMusicians = (query) => API.get(`/musicians/search`, { params: { query } });
 export const getReelByTitle = (title) => API.get(`/musicians/${title}`);
+=======
+
+
+>>>>>>> 4f4409d64a1ab65f942e55b93357727361c26cb8
 
 //upload API call
-export const uploadAudio = (formData) => API.post('/upload', formData, {
+export const uploadAudio = (formData) => API.post('/upload-file', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
 });
-export const getAllUploads = () => API.get('/all');
-export const getCategories = () => API.get("/categories");
-export const searchUpload = () => API.get("/search");
+export const getAllReelUpload = () => API.get('/upload-file/all-reels');
+export const getCategories = () => API.get("/upload-file/categories");
+export const searchReels = (query) => API.get(`/upload-file/search`, { params: { query } });
+export const getReelByTitle = (title) => API.get(`/upload-file/${title}`);
+
 
 //Charts API call
 
