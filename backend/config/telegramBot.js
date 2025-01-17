@@ -28,7 +28,6 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Welcome message handler with expanded inline keyboard
-// Welcome message handler
 const sendWelcomeMessage = (chatId) => {
   bot.sendMessage(
     chatId,
