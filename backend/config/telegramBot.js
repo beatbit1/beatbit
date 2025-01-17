@@ -18,7 +18,7 @@ if (process.env.NODE_ENV === "production") {
 
   // Initialize bot with webhook in production
   bot = new TelegramBot(botToken, { webHook: true });
-  const webhookUrl = `${process.env.BACKEND_URL}/api/v1/telegram/webhook`;
+  const webhookUrl = `${process.env.BACKEND_URL}/telegram/webhook`;
   bot.setWebHook(webhookUrl);
   console.log(`Telegram bot webhook set to: ${webhookUrl}`);
 } else {
