@@ -5,6 +5,7 @@ const connectDB = require("./dbConnect/db");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
 const bot = require("./config/telegramBot");
+const helmet = require("helmet");
 
 
 
@@ -37,7 +38,30 @@ app.use(express.json());
 app.use(fileUpload());
 
 
+// Add Helmet with custom Content Security Policy
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        "default-src": ["'self'", "*"],
+        "frame-ancestors": [
+          "'self'",
+          "http://localhost:*",
+          "https://*.pages.dev",
+          "https://*.vercel.app",
+          "https://*.ngrok-free.app",
+          "https://secure-mobile.walletconnect.com",
+          "https://secure-mobile.walletconnect.org",
+        ],
+        "script-src": ["'self'", "'unsafe-inline'", "https://*.walletconnect.org"],
+        "connect-src": ["'self'", "*"],
+      },
+    },
+  })
+);
 
+//CORS
 const corsOptions = {
     origin: (origin, callback) => {
         const allowedOrigins = [

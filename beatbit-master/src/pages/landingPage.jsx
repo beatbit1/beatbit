@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import Navbar from '../components/nav.jsx';
 import Footer from '../components/footer.jsx'
 // import { Swiper, SwiperSlide } from 'swiper/react';

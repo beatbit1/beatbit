@@ -48,40 +48,41 @@ createWeb3Modal({
 
 AOS.init();
 
-useEffect(() => {
-  // Access Telegram WebApp object
-  const tg = window.Telegram?.WebApp;
-
-  if (tg) {
-    // Expand the Telegram Web App header
-    tg.expand();
-
-    // Configure the MainButton
-    tg.MainButton.setText("Open App");
-    tg.MainButton.show();
-
-    // Handle button click
-    tg.MainButton.onClick(() => {
-      // Check if the app is inside Telegram or not
-      if (tg.initData) {
-        // If inside Telegram, open the app within Telegram's mini-web view
-        tg.close(); // Optional: You can close the WebView if you wish to open a new page.
-        tg.openUrl(import.meta.env.VITE_FRONTEND_URL || 'https://beatbit.netlify.app');  // Open the web app inside Telegram
-      } else {
-        // If not inside Telegram, just open in the browser
-        window.location.href = import.meta.env.VITE_FRONTEND_URL || 'https://beatbit.netlify.app';
-      }
-    });
-
-    // Clean up event listener on component unmount
-    return () => {
-      tg?.MainButton.offClick();
-    };
-  }
-}, []);
 
 
 function App() {
+  
+  useEffect(() => {
+    // Access Telegram WebApp object
+    const tg = window.Telegram?.WebApp;
+  
+    if (tg) {
+      // Expand the Telegram Web App header
+      tg.expand();
+  
+      // Configure the MainButton
+      tg.MainButton.setText("Open App");
+      tg.MainButton.show();
+  
+      // Handle button click
+      tg.MainButton.onClick(() => {
+        // Check if the app is inside Telegram or not
+        if (tg.initData) {
+          // If inside Telegram, open the app within Telegram's mini-web view
+          tg.close(); // Optional: You can close the WebView if you wish to open a new page.
+          tg.openUrl(import.meta.env.VITE_FRONTEND_URL || 'https://beatbit.netlify.app');  // Open the web app inside Telegram
+        } else {
+          // If not inside Telegram, just open in the browser
+          window.location.href = import.meta.env.VITE_FRONTEND_URL || 'https://beatbit.netlify.app';
+        }
+      });
+  
+      // Clean up event listener on component unmount
+      return () => {
+        tg?.MainButton.offClick();
+      };
+    }
+  }, []);
   
 
   
