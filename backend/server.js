@@ -4,6 +4,7 @@ dotenv.config({path: "./config/.env"});
 const connectDB = require("./dbConnect/db");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
+const bot = require("./config/telegramBot");
 
 
 
@@ -64,6 +65,14 @@ connectDB()
 //serve static files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+
+// Telegram webhook endpoint (only relevant for production)
+app.post("/telegram/webhook", (req, res) => {
+  if (process.env.NODE_ENV === "production") {
+    bot.processUpdate(req.body);
+  }
+  res.sendStatus(200);
+});
 
 // Telegram WebApp manifest
 app.get('/manifest.json', (req, res) => {
