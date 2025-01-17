@@ -4,7 +4,7 @@ dotenv.config({path: "./config/.env"});
 const connectDB = require("./dbConnect/db");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
-const bot = require("./config/telegramBot");
+
 
 
 
@@ -42,8 +42,6 @@ const corsOptions = {
         const allowedOrigins = [
             process.env.FRONTEND_URL, // Production frontend
             "http://localhost:5173", // Local frontend
-            process.env.TELEGRAM_URL,
-            process.env.TELEGRAM_API,
             "https://web.telegram.org"
         ];
 
@@ -66,6 +64,21 @@ connectDB()
 //serve static files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+
+// Telegram WebApp manifest
+app.get('/manifest.json', (req, res) => {
+  res.json({
+    name: 'BeatBit App',
+    short_name: 'BeatBit',
+    start_url: '/',
+    display: 'standalone',
+    background_color: '#000000',
+    theme_color: '#000000',
+    description: 'Revolutionize music creation on the blockchain.',
+  });
+});
+
+
 //imported routes
 const musicianRoutes = require("./routes/musicianRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
@@ -81,8 +94,6 @@ app.use("/api/v2/charts", chartRoute);
 
 
 
-// Middleware to connect Telegram bot with Express
-app.use(bot.webhookCallback("/bot"));
 
 app.get("/", (req, res) => {
     res.send("Hello from beatbit project backend!");
@@ -96,15 +107,6 @@ if (process.env.NODE_ENV === "production") {
   } else {
     app.listen(PORT, () => {
       console.log(`Server is running on ${BACKEND_URL}`);
-  
-      if (BACKEND_URL.startsWith("https://")) {
-        bot.telegram
-          .setWebhook(`${BACKEND_URL}/bot`)
-          .then(() => console.log("Webhook set successfully"))
-          .catch((err) => console.error("Failed to set webhook:", err));
-      } else {
-        console.warn("Webhook not set: BACKEND_URL must be HTTPS.");
-      }
     });
   }
   

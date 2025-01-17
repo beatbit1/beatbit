@@ -25,12 +25,12 @@ function LandingPage () {
 
       // Handle button click
       tg.MainButton.onClick(() => {
-        window.location.href = "https://beatbit.netlify.app";
+        window.location.href = import.meta.env.VITE_FRONTEND_URL || 'https://beatbit.netlify.app';
       });
 
       // Clean up event listener on component unmount
       return () => {
-        tg.MainButton.offClick();
+        tg?.MainButton.offClick();
       };
     }
   }, []);
