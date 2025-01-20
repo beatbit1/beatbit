@@ -35,7 +35,8 @@ const sendWelcomeMessage = (chatId) => {
     {
       reply_markup: {
         inline_keyboard: [
-          [{ text: "Start BeatBit 🎵", url: webAppUrl }],
+          // Use "web_app" to open the URL inside Telegram's mini web app
+          [{ text: "Start BeatBit 🎵", web_app: { url: webAppUrl } }],
           [{ text: "Official Channel", url: "https://t.me/BeatbitMusicBot" }],
           [{ text: "About BeatBit", callback_data: "about" }],
           [{ text: "Connect Wallet", callback_data: "connect_wallet" }],
@@ -83,7 +84,8 @@ const setupBotHandlers = () => {
     bot.sendMessage(chatId, "Click below to open the BeatBit app:", {
       reply_markup: {
         inline_keyboard: [
-          [{ text: "Open BeatBit App", url: webAppUrl }],
+          // Use "web_app" to open the URL inside Telegram's mini web app
+          [{ text: "Open BeatBit App", web_app: { url: webAppUrl } }],
         ],
       },
     });
@@ -92,15 +94,23 @@ const setupBotHandlers = () => {
   // Handle button callback queries
   bot.on("callback_query", (query) => {
     const chatId = query.message.chat.id;
-    const responses = {
-      about:
-        "BeatBit is a revolutionary platform that combines music creation with blockchain technology. Explore new possibilities and join the future of music!",
-      connect_wallet:
-        "To connect your wallet, visit: https://beatbit.netlify.app/connect",
-      rewards:
-        "Rewards System: Earn points for creating music and contributing to the BeatBit ecosystem. Track your rewards and redeem them on the platform.",
-    };
-    bot.sendMessage(chatId, responses[query.data] || "Invalid option selected.");
+
+    if (query.data === "about") {
+      bot.sendMessage(
+        chatId,
+        "BeatBit is a revolutionary platform that combines music creation with blockchain technology. Explore new possibilities and join the future of music!"
+      );
+    } else if (query.data === "connect_wallet") {
+      bot.sendMessage(
+        chatId,
+        "To connect your wallet, visit: https://beatbit.netlify.app/connect"
+      );
+    } else if (query.data === "rewards") {
+      bot.sendMessage(
+        chatId,
+        "Rewards System: Earn points for uploading/engaging on music and contributing to the BeatBit ecosystem. Track your rewards and redeem them on the platform."
+      );
+    }
   });
 };
 
