@@ -14,10 +14,12 @@ const webAppUrl = process.env.FRONTEND_URL || "https://beatbit.netlify.app";
 let bot;
 
 // Check environment and set up accordingly
+// Check environment and set up accordingly
 if (process.env.NODE_ENV === "production") {
 
   // Initialize bot with webhook in production
   bot = new TelegramBot(botToken, { webHook: true });
+  
   const webhookUrl = `${process.env.BACKEND_URL}/telegram/webhook`;
   bot.setWebHook(webhookUrl);
   console.log(`Telegram bot webhook set to: ${webhookUrl}`);
@@ -26,6 +28,7 @@ if (process.env.NODE_ENV === "production") {
   bot = new TelegramBot(botToken, { polling: true });
   console.log("Telegram bot is running in development mode with polling...");
 }
+
 
 // Welcome message handler with expanded inline keyboard
 const sendWelcomeMessage = (chatId) => {
@@ -111,8 +114,12 @@ const setupBotHandlers = () => {
         "Rewards System: Earn points for uploading/engaging on music and contributing to the BeatBit ecosystem. Track your rewards and redeem them on the platform."
       );
     }
+
+    // Notify Telegram that the callback query has been handled
+    bot.answerCallbackQuery(query.id);
   });
 };
+
 
 setupBotHandlers();
 
