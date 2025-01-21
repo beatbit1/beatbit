@@ -45,16 +45,8 @@ app.use(
       useDefaults: true,
       directives: {
         "default-src": ["'self'", "*"],
-        "frame-ancestors": [
-          "'self'",
-          "http://localhost:*",
-          "https://*.pages.dev",
-          "https://*.vercel.app",
-          "https://*.ngrok-free.app",
-          "https://secure-mobile.walletconnect.com",
-          "https://secure-mobile.walletconnect.org",
-        ],
-        "script-src": ["'self'", "'unsafe-inline'", "https://*.walletconnect.org"],
+        "frame-ancestors": ["'self'", "http://localhost:*", "https://*.vercel.app"],
+        "script-src": ["'self'", "'unsafe-inline'"],
         "connect-src": ["'self'", "*"],
       },
     },
@@ -88,6 +80,7 @@ connectDB()
 
 //serve static files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 
 
 // Telegram webhook endpoint (only relevant for production)
