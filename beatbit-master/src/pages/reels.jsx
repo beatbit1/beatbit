@@ -13,7 +13,14 @@ function Dashboard () {
     const [searchQuery, setSearchQuery] = useState(""); // Search query state
     const audioRefs = useRef([]); // Refs to all audio elements
 
-    
+  
+    // Fallback paths for icons
+    const defaultLikeIcon = "/icons/like.png"; // Local fallback
+    const defaultDislikeIcon = "/icons/dislike.png";
+  
+
+
+
     // Fetch reels from the backend
     const fetchReels = async () => {
       try {
@@ -133,10 +140,18 @@ function Dashboard () {
                 />
                 <div className="flex space-x-4 mt-4">
                   <button className="flex items-center justify-center bg-green-500 p-2 rounded-full hover:bg-green-600">
-                    <img src={reel?.likeIcon} alt="like-icon" className="w-6 h-6" />
+                    <img 
+                    src={reel?.likeIcon || defaultLikeIcon}
+                    alt="like-icon" 
+                    className="w-6 h-6" 
+                    onError={(e) => { e.target.src = defaultLikeIcon; }}/>
                   </button>
                   <button className="flex items-center justify-center bg-red-500 p-2 rounded-full hover:bg-red-600">
-                    <img src={reel?.dislikeIcon} alt="dislike-icon" className="w-6 h-6" />
+                    <img 
+                    src={reel?.dislikeIcon || defaultDislikeIcon} 
+                    alt="dislike-icon" 
+                    className="w-6 h-6" 
+                    onError={(e) => { e.target.src = defaultDislikeIcon; }} />
                   </button>
                 </div>
                 <h2 className="mt-[30px] text-white text-[20px] sm:text-[16px] md:text-[17px] lg:text-[20px]">{reel?.title}</h2>

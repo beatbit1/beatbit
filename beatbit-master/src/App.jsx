@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import LandingPage from './pages/landingPage.jsx'
 import Dashboard from "./pages/reels.jsx"
 import Uploads from './pages/uploads.jsx';
@@ -13,7 +13,7 @@ import 'aos/dist/aos.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { createWeb3Modal } from '@web3modal/wagmi/react'
 import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
-import { WagmiProvider } from 'wagmi'
+import { WagmiProvider, useAccount } from 'wagmi'
 import { arbitrum, mainnet, polygon } from 'wagmi/chains'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
@@ -40,13 +40,18 @@ const config = defaultWagmiConfig({
 
 // 3. Create modal
 createWeb3Modal({
-  metadata,
   wagmiConfig: config,
   projectId,
+  metadata,
   enableAnalytics: true // Optional - defaults to your Cloud configuration
 })
 
 AOS.init();
+
+function ProtectedRoute({ children }) {
+  const { address } = useAccount();
+  return address ? children : <Navigate to="/home" />;
+}
 
 
 
@@ -95,12 +100,13 @@ function App() {
                   <Route index element={<LandingPage />} />
                   <Route path="/home" element={<LandingPage />} />
                   <Route path="/connect" element={<ConnectWallet />} />
-                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                   <Route path="/upload-page" element={<Uploads />} />
                   <Route path="/pools" element={<Pools />} />
                   <Route path="/subchart" element={<SubChart />} />
                   <Route path="/bounty" element={<TopChart />} />
                   <Route path="/ai" element={<Ai />} />
+                  <Route path="*" element={<Navigate to="/home" />} />
               </Routes>
             </BrowserRouter>
         </QueryClientProvider>

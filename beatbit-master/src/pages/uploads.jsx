@@ -63,13 +63,14 @@ function Uploads () {
         try {
             const response = await uploadAudio(formData);
             if (response.status === 201) {
-                alert(response.data.message);
-                setAudioTitle("");
-                setAudioDescription("");
-                setAudioImage(null);
-                setAudioFile(null);
-                setCategory("");
-                setShortReels(false);
+                alert("File uploaded successfully!");
+                window.location.reload(); // Reload the page to reset fields
+                // setAudioTitle("");
+                // setAudioDescription("");
+                // setAudioImage(null);
+                // setAudioFile(null);
+                // setCategory("");
+                // setShortReels(false);
             }
         } catch (error) {
             console.error("Upload failed:", error.response?.data || error.message);
@@ -143,10 +144,10 @@ function Uploads () {
                          onChange={(e)=>setCategory(e.target.value)}
                          required
                          >
-                            <option value="" className="text-gray-800">Select Category</option>
+                            <option value="" className="text-gray-500">Select Category</option>
                             {categories.map((cat) => (
-                                <option key={cat} value={cat} className="text-gray-800">
-                                    {cat.name}
+                                <option key={cat} value={cat} className="text-gray-500">
+                                    {cat}
                                 </option>
                             ))}
                             

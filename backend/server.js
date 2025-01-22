@@ -35,7 +35,7 @@ console.log(`Backend URL: ${BACKEND_URL}`);
 
 //middle calls
 app.use(express.json());
-app.use(fileUpload());
+app.use(fileUpload({ useTempFiles: true })); // Enable temp files for Cloudinary
 
 
 // Add Helmet with custom Content Security Policy
@@ -44,10 +44,19 @@ app.use(
     contentSecurityPolicy: {
       useDefaults: true,
       directives: {
-        "default-src": ["'self'", "*"],
-        "frame-ancestors": ["'self'", "http://localhost:*", "https://*.vercel.app"],
-        "script-src": ["'self'", "'unsafe-inline'"],
+        "default-src": ["'self'"],
+        "frame-ancestors": [
+          "'self'",
+          "http://localhost:*",
+          "https://*.vercel.app",
+          "https://*.pages.dev",
+          "https://secure-mobile.walletconnect.com",
+          "https://secure.walletconnect.org",
+        ],
+        "script-src": ["'self'", "'unsafe-inline'", "https://*.cloudinary.com"],
         "connect-src": ["'self'", "*"],
+        "img-src": ["'self'", "data:", "https://*.cloudinary.com"],
+        "media-src": ["'self'", "https://*.cloudinary.com"],
       },
     },
   })
@@ -79,7 +88,7 @@ app.use(cors(corsOptions));
 connectDB()
 
 //serve static files
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+//app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 
 

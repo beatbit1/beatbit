@@ -2,29 +2,29 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAccount } from 'wagmi';
 import Navbar from '../components/nav.jsx';
-import {connectWallet} from "../services/apiCall.js"
+import {connectWallet} from "../services/apiCall.js";
+
+
 function ConnectWallet () {
     const navigate = useNavigate();
     const { address, isConnecting, isDisconnected } = useAccount();
     
     useEffect(() => {
-        const connectWalletToBackend = async() => {
+        const connectWalletToBackend = async () => {
             if (address && !isConnecting) {
-
-                try{
+                try {
                     const response = await connectWallet({ walletAddress: address });
                     console.log('Wallet connected:', response.data);
-                    navigate('/dashboard');
-                }catch(err){
+                    navigate('/dashboard'); // Navigate to Dashboard
+                } catch (error) {
                     console.error('Error connecting wallet:', error);
-
                 }
-                
-              }
-        }
+            }
+        };
+
         connectWalletToBackend();
-        
-      }, [address, isConnecting, history]);
+    }, [address, isConnecting]);
+    
     return (
         <>
             <Navbar/>

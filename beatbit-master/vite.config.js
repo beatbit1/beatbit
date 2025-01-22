@@ -24,11 +24,6 @@ export default defineConfig(({ mode }) => {
           target: backendUrl,
           changeOrigin: true,
         },
-        '/uploads': {
-          target: backendUrl,
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/uploads/, '/uploads'),
-        },
       },
     },
   };

@@ -16,19 +16,43 @@ let bot;
 
 // Initialize bot with webhook in production mode
 if (process.env.NODE_ENV === "production") {
+  // Use webhook in production
   bot = new TelegramBot(botToken, { webHook: true });
 
-  const webhookUrl = `${process.env.BACKEND_URL}/telegram/webhook`; 
+  const webhookUrl = `${process.env.BACKEND_URL}/telegram/webhook`;
 
   bot.setWebHook(webhookUrl)
     .then(() => console.log(`Webhook set successfully: ${webhookUrl}`))
-    .catch((err) => console.error("Error setting webhook:", err));
+    .catch((err) => {
+      console.error("Error setting webhook:", err.message);
+      process.exit(1);
+    });
 } else {
-
   // Use polling in development
   bot = new TelegramBot(botToken, { polling: true });
   console.log("Telegram bot is running in development mode with polling...");
 }
+
+// Helper function for reconnecting the bot
+const reconnectBot = () => {
+  console.error("Bot connection lost. Attempting to reconnect...");
+  bot.stopPolling()
+    .then(() => bot.startPolling())
+    .then(() => console.log("Reconnected successfully."))
+    .catch((err) => console.error("Reconnection failed:", err.message));
+};
+
+// Set up event listeners for errors
+bot.on("polling_error", (err) => {
+  console.error("Polling error:", err.message);
+  if (err.code === "EFATAL") {
+    reconnectBot();
+  }
+});
+
+bot.on("webhook_error", (err) => {
+  console.error("Webhook error:", err.message);
+});
 
 // Welcome message handler with expanded inline keyboard
 const sendWelcomeMessage = (chatId) => {
