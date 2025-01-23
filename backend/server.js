@@ -62,24 +62,25 @@ app.use(
   })
 );
 
-//CORS
+// CORS Options
 const corsOptions = {
-    origin: (origin, callback) => {
-        const allowedOrigins = [
-            process.env.FRONTEND_URL, // Production frontend
-            "http://localhost:5173", // Local frontend
-            "https://web.telegram.org"
-        ];
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      process.env.FRONTEND_URL, // Production frontend
+      "http://localhost:5173", // Local frontend
+      "https://web.telegram.org",
+    ];
 
-        // Allow requests with no origin (like mobile apps, server-to-server requests)
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error("Not allowed by CORS"));
-        }
-    },
-    methods: "GET,POST,PUT,DELETE",
-    credentials: true, // Allows sending cookies
+    // Allow requests with no origin (like mobile apps, server-to-server requests)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`CORS error: Origin ${origin} is not allowed`));
+    }
+  },
+  methods: "GET,POST,PUT,DELETE",
+  credentials: true, // Allows cookies
+  exposedHeaders: ["Authorization", "Content-Type"], // Expose additional headers
 };
 
 app.use(cors(corsOptions));

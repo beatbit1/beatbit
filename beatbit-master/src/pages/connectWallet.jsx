@@ -23,7 +23,7 @@ function ConnectWallet () {
         };
 
         connectWalletToBackend();
-    }, [address, isConnecting]);
+    }, [address, isConnecting, navigate]);
     
     return (
         <>
